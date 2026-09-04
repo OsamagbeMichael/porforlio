@@ -1,0 +1,11 @@
+{
+  "name": "desktop-portfolio",
+  "private": true,
+  "workspaces": ["apps/*", "services/api"],
+  "scripts": {
+    "dev": "concurrently -n API,WEB -c blue,magenta \"npm run dev -w services/api\" \"npm run dev -w apps/web\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

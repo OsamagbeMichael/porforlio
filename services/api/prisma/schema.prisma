@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectStatus {
+  LIVE
+  IN_PROGRESS
+  SHIPPED
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String
+  stack       String[]
+  status      ProjectStatus @default(IN_PROGRESS)
+  url         String?
+  repoUrl     String?
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model AvailabilitySlot {
+  id        String    @id @default(cuid())
+  date      DateTime
+  available Boolean   @default(true)
+  bookings  Booking[]
+
+  @@unique([date])
+}
+
+model Booking {
+  id        String           @id @default(cuid())
+  slotId    String
+  slot      AvailabilitySlot @relation(fields: [slotId], references: [id])
+  name      String
+  email     String
+  message   String?
+  createdAt DateTime         @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
