@@ -15,11 +15,26 @@ generative wallpaper, and a real booking calendar — themed around
 
 ```
 portfolio/
-  apps/web/            # frontend, http://localhost:5173
-  services/api/         # Express API, http://localhost:4000
-  services/art-service/ # FastAPI, http://localhost:8000
+  apps/web/            # frontend, http://localhost:5173 — see apps/web/README.md
+  services/api/         # Express API, http://localhost:4000 — see services/api/README.md
+  services/art-service/ # FastAPI, http://localhost:8000 — see services/art-service/README.md
+  docs/decisions/        # short write-ups of significant architecture choices
+  CHANGELOG.md            # dated, terse — what shipped
+  DEVLOG.md                # dated, freeform — why, what I learned, what's next
   docker-compose.yml     # Postgres only
 ```
+
+Each service's own README covers just that piece: what it does, how to
+run only it, its config variables, and troubleshooting specific to it.
+This root README stays high-level on purpose.
+## Keeping this documented as it grows
+
+Three files, three jobs — see them for format and examples:
+
+- **This README** — stays stable. Update only when setup/run steps change.
+- **`CHANGELOG.md`** — one or two lines per change, added as you go under `[Unreleased]`.
+- **`DEVLOG.md`** — a few sentences after a real session: what, why, what surprised you, what's next. This is the journal — keep it honest and quick, not polished.
+- **`docs/decisions/`** — one file per decision worth defending later (framework choices, hosting, auth strategy). Most days you won't add one; that's fine.
 
 ## Getting started
 
