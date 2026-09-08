@@ -13,48 +13,38 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="tv-noise-filter" x="0" y="0" width="100%" height="100%">
+    <feTurbulence id="tv-noise-turb" type="turbulence" baseFrequency="1.1" numOctaves="2" stitchTiles="stitch" result="noise" />
+    <feColorMatrix in="noise" type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
+  </filter>
+</svg>
+
 <div id="desktop">
 
   <div id="menubar">
     <div class="left">
       <div class="brand"></div>
-      <div class="item">About</div>
       <div class="item">Projects</div>
-      <div class="item">Contact</div>
     </div>
     <div class="right">
-      <div id="countdown" aria-live="off"><span class="dot" aria-hidden="true"></span><span id="cd-text">counting since 2021</span></div>
       <div id="clock" aria-hidden="true">--:--:--</div>
     </div>
   </div>
 
   <!-- Desktop icons -->
-  <button class="icon" type="button" style="top:70px; left:6%;" data-open="about" aria-label="Open About Me">
-    <span class="glyph" style="background:var(--mustard);" aria-hidden="true">🙂</span>
-    <span class="label">About Me</span>
-  </button>
   <button class="icon" type="button" style="top:150px; left:14%;" data-open="projects" aria-label="Open Projects">
-    <span class="glyph" style="background:#E7DCC0;" aria-hidden="true">🗂️</span>
+    <span class="glyph" style="background:#3B3B3E;" aria-hidden="true">🗂️</span>
     <span class="label">Projects</span>
   </button>
-  <button class="icon" type="button" style="top:90px; right:10%;" data-open="calendar" aria-label="Open Book Time">
-    <span class="glyph" style="background:#EFC9A9;" aria-hidden="true">📅</span>
-    <span class="label">Book Time</span>
+  <button class="icon" type="button" style="top:70px; left:6%;" data-open="music" aria-label="Open Music">
+    <span class="glyph" style="background:var(--chrome);" aria-hidden="true">🎵</span>
+    <span class="label">Music</span>
   </button>
-  <button class="icon" type="button" style="top:220px; right:6%;" data-open="contact" aria-label="Open Say Hi contact form">
-    <span class="glyph" style="background:#D8C7E6;" aria-hidden="true">✉️</span>
-    <span class="label">Say Hi</span>
+  <button class="icon" type="button" style="top:90px; right:10%;" data-open="television" aria-label="Open Television">
+    <span class="glyph" style="background:var(--urgency);" aria-hidden="true">📺</span>
+    <span class="label">Television</span>
   </button>
-  <button class="icon" type="button" style="top:280px; left:8%;" data-open="interests" aria-label="Open Interests">
-    <span class="glyph" style="background:#B7C99B;" aria-hidden="true">🎧</span>
-    <span class="label">Interests</span>
-  </button>
-  <button class="icon" type="button" style="bottom:120px; left:20%;" data-open="notes" aria-label="Open Field Notes">
-    <span class="glyph" style="background:#F0A793;" aria-hidden="true">📝</span>
-    <span class="label">Field Notes</span>
-  </button>
-
-  <div class="hint" id="hint">click an icon or dock item — drag windows by the title bar</div>
 
   <!-- Mobile springboard -->
   <div id="home-header">
@@ -63,12 +53,9 @@
   </div>
   <div id="home-grid">
     <div class="grid-inner">
-      <button class="home-tile" type="button" style="animation-delay:0.02s" data-open="about" aria-label="About"><span class="glyph" style="background:var(--mustard);" aria-hidden="true">🙂</span><span class="label">About</span></button>
-      <button class="home-tile" type="button" style="animation-delay:0.06s" data-open="projects" aria-label="Projects"><span class="glyph" style="background:#E7DCC0;" aria-hidden="true">🗂️</span><span class="label">Projects</span></button>
-      <button class="home-tile" type="button" style="animation-delay:0.10s" data-open="calendar" aria-label="Book Time"><span class="glyph" style="background:#EFC9A9;" aria-hidden="true">📅</span><span class="label">Book Time</span></button>
-      <button class="home-tile" type="button" style="animation-delay:0.14s" data-open="interests" aria-label="Interests"><span class="glyph" style="background:#B7C99B;" aria-hidden="true">🎧</span><span class="label">Interests</span></button>
-      <button class="home-tile" type="button" style="animation-delay:0.18s" data-open="contact" aria-label="Say Hi"><span class="glyph" style="background:#D8C7E6;" aria-hidden="true">✉️</span><span class="label">Say Hi</span></button>
-      <button class="home-tile" type="button" style="animation-delay:0.22s" data-open="notes" aria-label="Field Notes"><span class="glyph" style="background:#F0A793;" aria-hidden="true">📝</span><span class="label">Field Notes</span></button>
+      <button class="home-tile" type="button" style="animation-delay:0.02s" data-open="projects" aria-label="Projects"><span class="glyph" style="background:#3B3B3E;" aria-hidden="true">🗂️</span><span class="label">Projects</span></button>
+      <button class="home-tile" type="button" style="animation-delay:0.06s" data-open="music" aria-label="Music"><span class="glyph" style="background:var(--chrome);" aria-hidden="true">🎵</span><span class="label">Music</span></button>
+      <button class="home-tile" type="button" style="animation-delay:0.10s" data-open="television" aria-label="Television"><span class="glyph" style="background:var(--urgency);" aria-hidden="true">📺</span><span class="label">Television</span></button>
     </div>
   </div>
 
@@ -76,41 +63,18 @@
 
   <!-- Dock / tab bar -->
   <nav id="dock" aria-label="App dock">
-    <button class="dock-item" type="button" data-open="about" aria-label="About" style="background:var(--mustard);">🙂<span class="dot" aria-hidden="true"></span></button>
-    <button class="dock-item" type="button" data-open="projects" aria-label="Projects" style="background:#E7DCC0;">🗂️<span class="dot" aria-hidden="true"></span></button>
-    <button class="dock-item" type="button" data-open="calendar" aria-label="Book Time" style="background:#EFC9A9;">📅<span class="dot" aria-hidden="true"></span></button>
-    <div class="dock-sep" aria-hidden="true"></div>
-    <button class="dock-item" type="button" data-open="interests" aria-label="Interests" style="background:#B7C99B;">🎧<span class="dot" aria-hidden="true"></span></button>
-    <button class="dock-item" type="button" data-open="contact" aria-label="Say Hi" style="background:#D8C7E6;">✉️<span class="dot" aria-hidden="true"></span></button>
+    <button class="dock-item" type="button" data-open="projects" aria-label="Projects" style="background:#3B3B3E;">🗂️<span class="dot" aria-hidden="true"></span></button>
+    <button class="dock-item" type="button" data-open="music" aria-label="Music" style="background:var(--chrome);">🎵<span class="dot" aria-hidden="true"></span></button>
+    <button class="dock-item" type="button" data-open="television" aria-label="Television" style="background:var(--urgency);">📺<span class="dot" aria-hidden="true"></span></button>
   </nav>
 
   <!-- Windows -->
-  <div class="window" id="win-about" role="dialog" aria-labelledby="title-about" style="top:90px; left:22%; width:400px; display:none;">
-    <div class="titlebar">
-      <div class="grabber" aria-hidden="true"></div>
-      <div class="traffic">
-        <button class="traffic-btn r" type="button" data-close aria-label="Close window"></button>
-        <span class="y" aria-hidden="true"></span><span class="g" aria-hidden="true"></span>
-      </div>
-      <div class="title" id="title-about">about-me.txt</div>
-      <button class="chevron-close" type="button" data-close aria-label="Close window">✕</button>
-    </div>
-    <div class="win-body">
-      <h1 class="disp">Hi, I build things<br />against the clock.</h1>
-      <p class="sub">designer / developer — currently: everywhere at once</p>
-      <p class="body-text">I'm the kind of person with eleven tabs, four half-finished side projects, and a genuine belief that this next idea is the one. This site is basically my desktop — poke around.</p>
-      <span class="tag">frontend</span><span class="tag">motion design</span><span class="tag">backend</span><span class="tag">too many hobbies</span>
-      <div id="writing-stats" class="stat-badge" style="display:none;" aria-live="polite"></div>
-    </div>
-    <div class="resize-handle" aria-hidden="true"></div>
-  </div>
-
   <div class="window" id="win-projects" role="dialog" aria-labelledby="title-projects" style="top:70px; left:38%; width:430px; display:none;">
     <div class="titlebar">
       <div class="grabber" aria-hidden="true"></div>
       <div class="traffic">
         <button class="traffic-btn r" type="button" data-close aria-label="Close window"></button>
-        <span class="y" aria-hidden="true"></span><span class="g" aria-hidden="true"></span>
+        <span class="g" aria-hidden="true"></span>
       </div>
       <div class="title" id="title-projects">Projects</div>
       <button class="chevron-close" type="button" data-close aria-label="Close window">✕</button>
@@ -123,104 +87,83 @@
     <div class="resize-handle" aria-hidden="true"></div>
   </div>
 
-  <div class="window" id="win-calendar" role="dialog" aria-labelledby="title-calendar" style="top:110px; left:56%; width:360px; display:none;">
+  <div class="window" id="win-music" role="dialog" aria-labelledby="title-music" style="top:120px; left:20%; width:340px; display:none;">
     <div class="titlebar">
       <div class="grabber" aria-hidden="true"></div>
       <div class="traffic">
         <button class="traffic-btn r" type="button" data-close aria-label="Close window"></button>
-        <span class="y" aria-hidden="true"></span><span class="g" aria-hidden="true"></span>
+        <span class="g" aria-hidden="true"></span>
       </div>
-      <div class="title" id="title-calendar">Book Time</div>
+      <div class="title" id="title-music">Music</div>
       <button class="chevron-close" type="button" data-close aria-label="Close window">✕</button>
     </div>
     <div class="win-body">
-      <p class="sub" id="cal-month" style="margin-bottom:2px;">loading…</p>
-      <div class="cal-grid" id="cal-grid" aria-live="polite"></div>
-      <div class="cal-legend">
-        <span><i class="swatch avail" aria-hidden="true"></i>available</span>
-        <span><i class="swatch today" aria-hidden="true"></i>today</span>
-        <span><i class="swatch unavail" aria-hidden="true"></i>unavailable</span>
-      </div>
-      <form id="book-form" style="margin-top:14px; display:none;">
-        <p class="sub" id="book-selected-label" style="margin-bottom:10px;"></p>
-        <div class="field">
-          <label for="b-name">Name</label>
-          <input id="b-name" name="name" required />
-        </div>
-        <div class="field">
-          <label for="b-email">Email</label>
-          <input id="b-email" name="email" type="email" required />
-        </div>
-        <button class="btn" id="book-btn" type="submit">Book this slot</button>
-        <div id="book-status" class="form-status" aria-live="polite"></div>
-      </form>
-      <p class="sub" id="book-hint">Pick an available date above to book time.</p>
+      <p class="sub">Nothing here yet — check back soon.</p>
     </div>
     <div class="resize-handle" aria-hidden="true"></div>
   </div>
 
-  <div class="window" id="win-contact" role="dialog" aria-labelledby="title-contact" style="top:250px; left:50%; width:340px; display:none;">
+  <div class="window" id="win-television" role="dialog" aria-labelledby="title-television" style="top:60px; left:24%; width:640px; display:none;">
     <div class="titlebar">
       <div class="grabber" aria-hidden="true"></div>
       <div class="traffic">
         <button class="traffic-btn r" type="button" data-close aria-label="Close window"></button>
-        <span class="y" aria-hidden="true"></span><span class="g" aria-hidden="true"></span>
+        <span class="g" aria-hidden="true"></span>
       </div>
-      <div class="title" id="title-contact">New Message</div>
+      <div class="title" id="title-television">Television</div>
       <button class="chevron-close" type="button" data-close aria-label="Close window">✕</button>
     </div>
-    <div class="win-body">
-      <p class="sub">Say hi — I reply fast, promise.</p>
-      <form id="contact-form">
-        <div class="field">
-          <label for="c-name">Name</label>
-          <input id="c-name" name="name" required />
+    <div class="win-body tv-body">
+      <div class="tv-screen">
+        <div class="tv-topbar">
+          <span class="tv-brand-icon" aria-hidden="true">📺</span>
+          <span class="tv-datetime">
+            <span class="tv-date" id="tv-date">MON 7 SEP 1997</span>
+            <span class="tv-clock" id="tv-clock">🕐 11:58</span>
+          </span>
         </div>
-        <div class="field">
-          <label for="c-email">Email</label>
-          <input id="c-email" name="email" type="email" required />
-        </div>
-        <div class="field">
-          <label for="c-message">Message</label>
-          <textarea id="c-message" name="message" rows="4" required></textarea>
-        </div>
-        <button class="btn" type="submit">Send</button>
-        <div id="contact-status" class="form-status" aria-live="polite"></div>
-      </form>
-    </div>
-    <div class="resize-handle" aria-hidden="true"></div>
-  </div>
 
-  <div class="window" id="win-interests" role="dialog" aria-labelledby="title-interests" style="top:200px; left:12%; width:380px; display:none;">
-    <div class="titlebar">
-      <div class="grabber" aria-hidden="true"></div>
-      <div class="traffic">
-        <button class="traffic-btn r" type="button" data-close aria-label="Close window"></button>
-        <span class="y" aria-hidden="true"></span><span class="g" aria-hidden="true"></span>
-      </div>
-      <div class="title" id="title-interests">Now Playing In My Head</div>
-      <button class="chevron-close" type="button" data-close aria-label="Close window">✕</button>
-    </div>
-    <div class="win-body">
-      <p class="body-text">Design, synths, film photography, distance running, whatever rabbit hole I fell into this week. This window is basically a mood board that updates itself.</p>
-      <span class="tag">vinyl</span><span class="tag">35mm</span><span class="tag">generative art</span><span class="tag">motorsport</span><span class="tag">type design</span>
-    </div>
-    <div class="resize-handle" aria-hidden="true"></div>
-  </div>
+        <div class="tv-window">
+          <div class="tv-window-titlebar">
+            <span class="tv-tl-btn" aria-hidden="true">✕</span>
+            <span class="tv-tl-btn" aria-hidden="true">🗓</span>
+            <span class="tv-tl-btn" aria-hidden="true">↳</span>
+            <span class="tv-window-title">YELLOWNOTES</span>
+          </div>
 
-  <div class="window" id="win-notes" role="dialog" aria-labelledby="title-notes" style="top:320px; left:30%; width:360px; display:none;">
-    <div class="titlebar">
-      <div class="grabber" aria-hidden="true"></div>
-      <div class="traffic">
-        <button class="traffic-btn r" type="button" data-close aria-label="Close window"></button>
-        <span class="y" aria-hidden="true"></span><span class="g" aria-hidden="true"></span>
-      </div>
-      <div class="title" id="title-notes">field-notes.md</div>
-      <button class="chevron-close" type="button" data-close aria-label="Close window">✕</button>
-    </div>
-    <div class="win-body">
-      <div id="notes-list" aria-live="polite">
-        <p class="sub">loading notes…</p>
+          <div class="tv-static-wrap">
+            <div id="tv-static" class="tv-static" aria-hidden="true"></div>
+          </div>
+
+          <div class="tv-filebar">
+            <span class="tv-filebar-nav" aria-hidden="true">◀▶</span>
+            <span class="tv-filename">Ultimate_Tanning_Machine.mp4</span>
+            <span class="tv-res">591x455</span>
+          </div>
+
+          <div class="tv-info">
+            <div class="tv-info-top">
+              <div class="tv-onair"><strong>YellowNotes: ON AIR</strong><span class="tv-live-dot" aria-hidden="true"></span></div>
+              <div class="tv-info-icons" aria-hidden="true">🔗 ♡</div>
+            </div>
+            <div class="tv-track">Ian Pooley – Venasque</div>
+            <div class="tv-status-row">
+              <div class="tv-status" id="tv-status">▸ Stopped</div>
+              <div class="tv-controls">
+                <button class="tv-ctrl tv-ctrl-play" type="button" id="tv-play" aria-label="Play">▶</button>
+                <button class="tv-ctrl" type="button" aria-label="Stop">■</button>
+                <button class="tv-ctrl" type="button" aria-label="Previous">⏮</button>
+                <button class="tv-ctrl" type="button" aria-label="Next">⏭</button>
+                <button class="tv-ctrl tv-ctrl-shuffle" type="button" aria-label="Shuffle">🔀</button>
+              </div>
+            </div>
+            <div class="tv-channel-row">
+              <span class="tv-channel">Channel: YellowNotes ON AIR <span class="tv-live-badge">LIVE</span> ▾</span>
+              <span class="tv-volume" aria-hidden="true">🔉</span>
+              <span class="tv-eq" aria-hidden="true">▮▮▮▮▮▮▮▮▮▮</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="resize-handle" aria-hidden="true"></div>

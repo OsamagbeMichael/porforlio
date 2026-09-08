@@ -25,6 +25,10 @@ export function initWindows(): void {
 
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => {
     el.addEventListener("click", () => {
+      if (el.dataset.justDragged === "1") {
+        delete el.dataset.justDragged;
+        return;
+      }
       lastTrigger = el;
       openWindow(el.dataset.open!);
     });
@@ -62,6 +66,8 @@ export function initWindows(): void {
     closeWindow(topmost.id.replace("win-", ""));
   });
 
+  applyStoredIconPositions();
+  initIconDragging();
   initDragging();
   initResizing();
   initSwipeToDismiss();
@@ -122,9 +128,6 @@ export function openWindow(key: string): void {
     w.querySelector<HTMLElement>("[data-close]") ??
     w.querySelector<HTMLElement>("h1, input, textarea, button");
   focusTarget?.focus();
-
-  const hint = document.getElementById("hint");
-  if (hint) hint.style.opacity = "0";
 }
 
 export function closeWindow(key: string): void {
@@ -177,6 +180,79 @@ function clampToViewport(win: HTMLElement): void {
 
   win.style.left = `${left}px`;
   win.style.top = `${top}px`;
+}
+
+// ---------- desktop icon dragging ----------
+const ICON_POS_KEY = "icon-positions";
+
+function loadIconPositions(): Record<string, { top: number; left: number }> {
+  try {
+    return JSON.parse(localStorage.getItem(ICON_POS_KEY) ?? "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveIconPosition(key: string, top: number, left: number): void {
+  const positions = loadIconPositions();
+  positions[key] = { top, left };
+  localStorage.setItem(ICON_POS_KEY, JSON.stringify(positions));
+}
+
+function applyStoredIconPositions(): void {
+  const positions = loadIconPositions();
+  document.querySelectorAll<HTMLElement>(".icon[data-open]").forEach((icon) => {
+    const pos = positions[icon.dataset.open!];
+    if (!pos) return;
+    icon.style.top = `${pos.top}px`;
+    icon.style.left = `${pos.left}px`;
+    icon.style.right = "";
+    icon.style.bottom = "";
+  });
+}
+
+function initIconDragging(): void {
+  document.querySelectorAll<HTMLElement>(".icon[data-open]").forEach((icon) => {
+    icon.addEventListener("mousedown", (e) => {
+      if (isMobile() || e.button !== 0) return;
+
+      const desktop = document.getElementById("desktop")!;
+      const deskRect = desktop.getBoundingClientRect();
+      const rect = icon.getBoundingClientRect();
+      const startX = e.clientX;
+      const startY = e.clientY;
+      const origLeft = rect.left - deskRect.left;
+      const origTop = rect.top - deskRect.top;
+      let moved = false;
+
+      const onMove = (ev: MouseEvent) => {
+        const dx = ev.clientX - startX;
+        const dy = ev.clientY - startY;
+        if (!moved && Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+        moved = true;
+
+        const maxLeft = Math.max(0, deskRect.width - icon.offsetWidth);
+        const maxTop = Math.max(TOPBAR_H, deskRect.height - icon.offsetHeight);
+        const left = Math.min(Math.max(origLeft + dx, 0), maxLeft);
+        const top = Math.min(Math.max(origTop + dy, TOPBAR_H), maxTop);
+
+        icon.style.left = `${left}px`;
+        icon.style.top = `${top}px`;
+        icon.style.right = "";
+        icon.style.bottom = "";
+      };
+      const onUp = () => {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        if (moved) {
+          icon.dataset.justDragged = "1";
+          saveIconPosition(icon.dataset.open!, parseFloat(icon.style.top), parseFloat(icon.style.left));
+        }
+      };
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    });
+  });
 }
 
 function initDragging(): void {
