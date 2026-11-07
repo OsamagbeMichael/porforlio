@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Ignore the output video from Git but not videos you import into src/.
+out
+
+# Raw takes, music and b-roll are big; keep them out of git.
+public/**/*.mp4
+public/**/*.mov
+public/**/*.mp3
+public/**/*.m4a
+public/**/*.wav

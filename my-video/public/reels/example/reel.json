@@ -1,0 +1,8 @@
+{
+  "labels": [
+    { "text": "2: Rough cut", "start": 3.4, "end": 5.4 },
+    { "text": "3: Subtitles", "start": 11.6, "end": 13.4 }
+  ],
+  "broll": [{ "src": "b-roll/screens/example.jpg", "start": 6.0, "end": 9.0 }],
+  "music": { "src": "music/example.mp3", "volume": 0.05 }
+}
