@@ -12,7 +12,10 @@ import { Oscilloscope, OscilloscopeProps } from "./Oscilloscope";
 import { PaperDesk, PaperDeskProps } from "./PaperDesk";
 import { RetroCrt, RetroCrtProps } from "./RetroCrt";
 import { Risograph, RisographProps } from "./Risograph";
+import { ScrollShowcase, ScrollShowcaseProps } from "./ScrollShowcase";
+import { SketchNote, SketchNoteProps } from "./SketchNote";
 import { StatChart, StatChartProps } from "./StatChart";
+import { StepCard, StepCardProps } from "./StepCard";
 import { SwissGrid, SwissGridProps } from "./SwissGrid";
 import { Teardown, TeardownProps } from "./Teardown";
 
@@ -34,7 +37,10 @@ export type AnimSpec =
   | IsoFlowProps
   | NotificationsProps
   | DayCounterProps
-  | LaptopRevealProps;
+  | LaptopRevealProps
+  | ScrollShowcaseProps
+  | StepCardProps
+  | SketchNoteProps;
 
 export const Anim: React.FC<AnimSpec> = (p) => {
   switch (p.style) {
@@ -72,6 +78,12 @@ export const Anim: React.FC<AnimSpec> = (p) => {
       return <DayCounter {...p} />;
     case "laptop-reveal":
       return <LaptopReveal {...p} />;
+    case "scroll-showcase":
+      return <ScrollShowcase {...p} />;
+    case "step-card":
+      return <StepCard {...p} />;
+    case "sketch-note":
+      return <SketchNote {...p} />;
   }
 };
 
@@ -115,4 +127,7 @@ export const ANIM_SAMPLES: AnimSpec[] = [
   },
   { style: "day-counter", day: 30, kicker: "Posting every day", month: "April" },
   { style: "laptop-reveal", src: SHOT, caption: "Your week, planned in minutes." },
+  { style: "scroll-showcase", src: SHOT, title: "Client paid $3,350", url: "clientsite.com" },
+  { style: "step-card", step: 2, label: "Draw one line", text: "That's your camera path at eye height", accent: "camera path" },
+  { style: "sketch-note", number: 1, title: "Read something long" },
 ];
