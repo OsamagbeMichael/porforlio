@@ -11,6 +11,7 @@ import {
 } from "remotion";
 import { Anim, AnimSpec } from "./anim";
 import { FPS, Segment, Word, pageWords } from "./edit";
+import { Vintage } from "./Vintage";
 
 // Everything below is in seconds of the finished edit, except segments (raw take).
 type Timed = { start: number; end: number };
@@ -18,9 +19,12 @@ export type ReelData = {
   segments: Segment[]; // from cut.json
   words: Word[]; // from cut.json
   labels?: (Timed & { text: string })[]; // "1: The hook" section cards
-  broll?: (Timed & { src: string })[]; // image/video path under public/
+  broll?: (Timed & { src: string; look?: "vintage" })[]; // image/video path under public/
   anim?: (Timed & AnimSpec)[]; // animated graphics drawn in the b-roll card (src/anim/)
   music?: { src: string; volume?: number };
+  // Sound effects at edit seconds. Reuse at most 3 files; vary them with rate/pitch (docs/editor-rules.md).
+  sfx?: { at: number; src: string; volume?: number; rate?: number; pitch?: number }[];
+  captionStyle?: "bold" | "serif"; // bold: 3-word uppercase pops; serif: calm sentence-case lines on a dark box
 };
 export type ReelProps = { slug: string; data?: ReelData };
 
@@ -47,6 +51,23 @@ const PopIn: React.FC<{ children: React.ReactNode; style: React.CSSProperties }>
 };
 
 const isVideo = (src: string) => /\.(mp4|mov|webm|m4v)$/i.test(src);
+const media = (src: string) =>
+  isVideo(src) ? (
+    <Video src={staticFile(src)} muted objectFit="cover" style={{ width: "100%", height: "100%" }} />
+  ) : (
+    <Img src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+  );
+
+const CAPTION: Record<"bold" | "serif", React.CSSProperties> = {
+  bold: {
+    color: "white",
+    font: "900 76px 'Helvetica Neue', Arial, sans-serif",
+    textTransform: "uppercase",
+    WebkitTextStroke: "10px black",
+    paintOrder: "stroke fill",
+  },
+  serif: { color: "white", font: "500 58px Georgia, 'Times New Roman', serif", lineHeight: 1.25 },
+};
 // The b-roll card: 940 x 680 near the top, so the face and captions stay visible below it.
 const CARD: React.CSSProperties = { top: 110, left: 70, right: 70, height: 680, borderRadius: 28, overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" };
 
@@ -75,11 +96,7 @@ export const Reel: React.FC<ReelProps> = ({ slug, data }) => {
       {data.broll?.map((b, i) => (
         <Sequence key={`b${i}`} {...at(b)} name={`B-roll ${b.src}`}>
           <PopIn style={CARD}>
-            {isVideo(b.src) ? (
-              <Video src={staticFile(b.src)} muted objectFit="cover" style={{ width: "100%", height: "100%" }} />
-            ) : (
-              <Img src={staticFile(b.src)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            )}
+            {b.look === "vintage" ? <Vintage>{media(b.src)}</Vintage> : media(b.src)}
           </PopIn>
         </Sequence>
       ))}
@@ -104,22 +121,22 @@ export const Reel: React.FC<ReelProps> = ({ slug, data }) => {
 
       {pageWords(data.words).map((c, i) => (
         <Sequence key={`c${i}`} {...at(c)} name={`Caption ${c.text}`}>
-          <div
-            style={{
-              position: "absolute",
-              top: 1250,
-              width: "100%",
-              padding: "0 60px",
-              textAlign: "center",
-              color: "white",
-              font: "900 76px 'Helvetica Neue', Arial, sans-serif",
-              textTransform: "uppercase",
-              WebkitTextStroke: "10px black",
-              paintOrder: "stroke fill",
-            }}
-          >
-            {c.text}
+          <div style={{ position: "absolute", top: 1250, width: "100%", padding: "0 60px", textAlign: "center", ...CAPTION[data.captionStyle ?? "bold"] }}>
+            {data.captionStyle === "serif" ? (
+              // The box wraps each line separately, like a subtitle, instead of one big rectangle.
+              <span style={{ background: "rgba(0,0,0,0.55)", padding: "4px 14px", borderRadius: 8, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>
+                {c.text}
+              </span>
+            ) : (
+              c.text
+            )}
           </div>
+        </Sequence>
+      ))}
+
+      {data.sfx?.map((s, i) => (
+        <Sequence key={`s${i}`} from={frames(s.at)} name={`SFX ${s.src}`}>
+          <Audio src={staticFile(s.src)} volume={s.volume ?? 0.5} playbackRate={s.rate ?? 1} toneFrequency={s.pitch ?? 1} />
         </Sequence>
       ))}
 

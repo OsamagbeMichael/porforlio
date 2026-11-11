@@ -16,6 +16,9 @@ export const MAX_WORDS = 3; // words per cue before we look for a break
 export const GAP_LEAD = 0.02; // a cue ends this long before the next one starts
 export const MAX_HOLD = 2.0; // never let a cue hold longer than this over a silence
 
+// A cut that removes more raw take than this is a visible jump (a retake, a long ramble).
+export const BIG_CUT = 1.0;
+
 const snap = (s: number) => Math.round(s * FPS) / FPS;
 const bare = (w: string) => w.trim().toLowerCase().replace(/[^a-z']/g, "");
 
@@ -63,7 +66,19 @@ export const cut = (words: Word[], drops: [number, number][] = []) => {
   return { segments, words: out };
 };
 
-export const pageWords = (words: Word[]): Cue[] => {
+// Edit-time seconds of each big jump cut, so b-roll can be laid over it (docs/editor-rules.md).
+export const bigCuts = (segments: Segment[]) => {
+  const out: number[] = [];
+  let t = 0;
+  segments.forEach((s, i) => {
+    t += s.end - s.start;
+    const next = segments[i + 1];
+    if (next && next.start - s.end > BIG_CUT) out.push(t);
+  });
+  return out;
+};
+
+export const pageWords =(words: Word[]): Cue[] => {
   const groups: Word[][] = [];
   for (const w of words) {
     const g = groups[groups.length - 1];
