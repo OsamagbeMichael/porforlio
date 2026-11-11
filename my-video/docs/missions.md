@@ -25,3 +25,18 @@ Easiest first. Do each one without looking at the old code (`git stash` or copy 
 - the pause between them is longer than `MAX_GAP`.
 
 **Check:** `npm test`.
+
+## 5. Make the stat chart count up (your piece, nothing to stash)
+**Spec:** `countUp(frame, value)` in `src/anim/StatChart.tsx` returns the number to show. On frame 0 it's 0. On frame 30 it reaches `value`, and it stays there afterwards. It slows down near the end (ease out). Hint: `grow` in `src/anim/util.ts` already gives you 0 → 1.
+**Check:** `npx remotion still stat-chart out/m5.png --frame=10`: the number should be partway up (around 2.9 for the $4.1B sample). At `--frame=40` it reads `$4.1B`. Or scrub "Styles → stat-chart" in `npm run dev`.
+
+## 6. Rebuild `drawOn` and `linePath` (`src/anim/util.ts`)
+**Spec:**
+- `drawOn(progress)` returns the three SVG props that make a path draw itself: at 0 nothing is visible, at 1 the whole path is visible. Use `pathLength: 1` so you never need to measure the path.
+- `linePath(points, w, h)` maps numbers to `{ d, last }`: the first point at x=0, the last at x=w, the smallest value at y=h, the largest at y=0. `d` is an SVG path (`M x,y L x,y ...`).
+
+**Check:** `npm run lint`, then render stills of `stat-chart` and `paper-desk` at frames 20 and 75. The lines should be half drawn, then fully drawn, matching `out/styles/*.png`.
+
+## 7. Add a sixth style
+**Spec:** make `src/anim/Quote.tsx`: a big quote in white on black, with the speaker's name below it in grey. The words fade in one after another (one word every 3 frames). Add its props type to `AnimSpec`, a `case` to `Anim`, and a sample to `ANIM_SAMPLES` in `src/anim/index.tsx`.
+**Check:** it appears in Studio under "Styles", and `npm run lint` passes. TypeScript tells you if the `switch` misses your new style.

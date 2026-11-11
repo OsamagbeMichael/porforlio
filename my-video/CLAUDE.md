@@ -9,7 +9,7 @@ Data flows one way: `raw.mp4` -> `words.raw.json` -> `cut.json` -> render. Chang
 | `words.raw.json` | `npm run transcribe -- <slug>` | raw take |
 | `drops.json` | Claude: `[[start, end], ...]` ranges to throw away | raw take |
 | `cut.json` | `npm run cut -- <slug>`: kept segments and retimed words | segments: raw take, words: edit |
-| `reel.json` | Claude: labels, b-roll, music | edit |
+| `reel.json` | Claude: labels, b-roll, anim, music | edit |
 
 ## Workflow for a new reel
 
@@ -18,6 +18,13 @@ Data flows one way: `raw.mp4` -> `words.raw.json` -> `cut.json` -> render. Chang
 3. **Subtitles.** These are automatic: `pageWords` in `src/edit.ts` builds cues of up to 3 words.
 4. **Music.** Pick a track from `docs/music-library.md` by the video's feeling. If the user gives a link, run `npm run music -- <url>` and add the track to the library. Set `reel.json` `music` and keep the volume at 0.05–0.12 under speech.
 5. **B-roll.** File everything first (rule below). Then add `broll` entries to `reel.json`, timed to the words in `cut.json` that mention the thing. Show each one for 2–4 s. For a website, screenshot it with the browser tool into the reel folder.
+5b. **Animated graphics.** When the take names a number, a place-to-place trip, the parts of a thing, a headline or a saying, add an `anim` entry to `reel.json` instead of a still. Time it like b-roll (2–4 s, starting on the word). Styles live in `src/anim/`; sample props for each are in `ANIM_SAMPLES` (`src/anim/index.tsx`) and preview in Studio under "Styles":
+   - `stat-chart`: one big number + a line chart (`value`, `prefix`, `suffix`, `label`, `points`, `callout`)
+   - `paper-desk`: a headline printed on paper (`headline`, `kicker`, `points`)
+   - `map-route`: a route drawn across a made-up city (`stops`, 2–4 names)
+   - `teardown`: an exploded view with labeled layers (`title`, `parts`, top first)
+   - `ink-wash`: a saying painted in ink (`text`, `sub`)
+   Don't overlap an `anim` with `broll` or a label: they share the same spot on screen.
 6. **Transitions.** Hard cuts, plus a punch-in zoom every `ZOOM_EVERY` cuts (`src/Reel.tsx`). Nothing to do per reel.
 7. **Call to action.** The last line of the take. Add a label for it only if the user asks.
 
