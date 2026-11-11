@@ -1,3 +1,10 @@
+import { Bento, BentoProps } from "./Bento";
+import { DesktopCore, DesktopCoreProps } from "./DesktopCore";
+import { Explainer, ExplainerProps } from "./Explainer";
+import { FootageText, FootageTextProps } from "./FootageText";
+import { Scrapbook, ScrapbookProps } from "./Scrapbook";
+import { TextBehind, TextBehindProps } from "./TextBehind";
+import { TierList, TierListProps } from "./TierList";
 import { BeforeAfter, BeforeAfterProps } from "./BeforeAfter";
 import { Blueprint, BlueprintProps } from "./Blueprint";
 import { DayCounter, DayCounterProps } from "./DayCounter";
@@ -40,7 +47,14 @@ export type AnimSpec =
   | LaptopRevealProps
   | ScrollShowcaseProps
   | StepCardProps
-  | SketchNoteProps;
+  | SketchNoteProps
+  | TextBehindProps
+  | FootageTextProps
+  | TierListProps
+  | DesktopCoreProps
+  | ScrapbookProps
+  | BentoProps
+  | ExplainerProps;
 
 export const Anim: React.FC<AnimSpec> = (p) => {
   switch (p.style) {
@@ -84,6 +98,20 @@ export const Anim: React.FC<AnimSpec> = (p) => {
       return <StepCard {...p} />;
     case "sketch-note":
       return <SketchNote {...p} />;
+    case "text-behind":
+      return <TextBehind {...p} />;
+    case "footage-text":
+      return <FootageText {...p} />;
+    case "tier-list":
+      return <TierList {...p} />;
+    case "desktop-core":
+      return <DesktopCore {...p} />;
+    case "scrapbook":
+      return <Scrapbook {...p} />;
+    case "bento":
+      return <Bento {...p} />;
+    case "explainer":
+      return <Explainer {...p} />;
   }
 };
 
@@ -130,4 +158,25 @@ export const ANIM_SAMPLES: AnimSpec[] = [
   { style: "scroll-showcase", src: SHOT, title: "Client paid $3,350", url: "clientsite.com" },
   { style: "step-card", step: 2, label: "Draw one line", text: "That's your camera path at eye height", accent: "camera path" },
   { style: "sketch-note", number: 1, title: "Read something long" },
+  { style: "text-behind", text: "Brew", subject: "b-roll/screens/sample-subject.svg", color: "#1f3bff" },
+  { style: "footage-text", text: "Static", src: SHOT, sub: "Fill the word, not the frame" },
+  {
+    style: "tier-list",
+    title: "Editing apps, ranked",
+    tiers: [{ items: ["Remotion"] }, { items: ["Premiere", "Resolve"] }, { items: ["CapCut"] }, { items: ["iMovie"] }],
+  },
+  { style: "desktop-core", title: "week-planner.png", files: ["drafts", "b-roll", "posted"], src: SHOT },
+  { style: "scrapbook", title: "my week", notes: ["film on Saturday", "edit 1 h a day"], src: SHOT },
+  {
+    style: "bento",
+    cells: [
+      { value: "350", label: "video ideas from one niche" },
+      { value: "5", label: "sub-niches" },
+      { value: "10", label: "formats" },
+      { value: "7", label: "angles" },
+      { label: "one prompt" },
+      { value: "1 h", label: "a day, max" },
+    ],
+  },
+  { style: "explainer", tag: "RGB split", text: "Simple effects make an edit look expensive.", src: SHOT },
 ];
