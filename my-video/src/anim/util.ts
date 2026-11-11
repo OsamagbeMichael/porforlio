@@ -23,5 +23,25 @@ export const linePath = (points: number[], w: number, h: number) => {
   return { d, last: xy[xy.length - 1] };
 };
 
+// Isometric projection: a point on a flat (x, y) floor, z metres up -> screen position around (cx, cy).
+export const iso = (x: number, y: number, z: number, cx: number, cy: number): [number, number] => [
+  cx + (x - y) * 0.866,
+  cy + (x + y) * 0.5 - z,
+];
+
+// The point `t` (0-1) of the way along a polyline, measured by length, not by corner count.
+export const along = (pts: number[][], t: number) => {
+  const legs = pts.slice(1).map(([x, y], i) => Math.hypot(x - pts[i][0], y - pts[i][1]));
+  let left = t * legs.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < legs.length; i++) {
+    if (left <= legs[i] || i === legs.length - 1) {
+      const f = legs[i] ? Math.min(1, left / legs[i]) : 0;
+      return [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * f, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * f];
+    }
+    left -= legs[i];
+  }
+  return pts[0];
+};
+
 // Draw-on trick: with pathLength={1} every path is 1 unit long, so the dash offset is just 1 - progress.
 export const drawOn = (progress: number) => ({ pathLength: 1, strokeDasharray: 1, strokeDashoffset: 1 - progress });
