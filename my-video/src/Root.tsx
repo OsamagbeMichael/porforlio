@@ -1,4 +1,6 @@
 import { Composition, Folder } from "remotion";
+import { ANIM_SAMPLES, Anim } from "./anim";
+import { H, W } from "./anim/util";
 import { HelloWorld } from "./HelloWorld";
 import { Reel, calculateReelMetadata } from "./Reel";
 import { Logo } from "./HelloWorld/Logo";
@@ -51,6 +53,11 @@ export const RemotionRoot: React.FC = () => {
           titleColor: "#000000",
         }}
       />
+      <Folder name="Styles">
+        {ANIM_SAMPLES.map((s) => (
+          <Composition key={s.style} id={s.style} component={Anim} durationInFrames={90} fps={30} width={W} height={H} defaultProps={s} />
+        ))}
+      </Folder>
       <Composition
         // npx remotion render Reel out/<slug>.mp4 --props='{"slug":"<slug>"}'
         id="Reel"

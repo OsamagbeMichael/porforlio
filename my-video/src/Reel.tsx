@@ -9,6 +9,7 @@ import {
   staticFile,
   useCurrentFrame,
 } from "remotion";
+import { Anim, AnimSpec } from "./anim";
 import { FPS, Segment, Word, pageWords } from "./edit";
 
 // Everything below is in seconds of the finished edit, except segments (raw take).
@@ -18,6 +19,7 @@ export type ReelData = {
   words: Word[]; // from cut.json
   labels?: (Timed & { text: string })[]; // "1: The hook" section cards
   broll?: (Timed & { src: string })[]; // image/video path under public/
+  anim?: (Timed & AnimSpec)[]; // animated graphics drawn in the b-roll card (src/anim/)
   music?: { src: string; volume?: number };
 };
 export type ReelProps = { slug: string; data?: ReelData };
@@ -45,6 +47,8 @@ const PopIn: React.FC<{ children: React.ReactNode; style: React.CSSProperties }>
 };
 
 const isVideo = (src: string) => /\.(mp4|mov|webm|m4v)$/i.test(src);
+// The b-roll card: 940 x 680 near the top, so the face and captions stay visible below it.
+const CARD: React.CSSProperties = { top: 110, left: 70, right: 70, height: 680, borderRadius: 28, overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" };
 
 export const Reel: React.FC<ReelProps> = ({ slug, data }) => {
   if (!data) return null;
@@ -70,12 +74,20 @@ export const Reel: React.FC<ReelProps> = ({ slug, data }) => {
 
       {data.broll?.map((b, i) => (
         <Sequence key={`b${i}`} {...at(b)} name={`B-roll ${b.src}`}>
-          <PopIn style={{ top: 110, left: 70, right: 70, height: 680, borderRadius: 28, overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
+          <PopIn style={CARD}>
             {isVideo(b.src) ? (
               <Video src={staticFile(b.src)} muted objectFit="cover" style={{ width: "100%", height: "100%" }} />
             ) : (
               <Img src={staticFile(b.src)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             )}
+          </PopIn>
+        </Sequence>
+      ))}
+
+      {data.anim?.map((a, i) => (
+        <Sequence key={`a${i}`} {...at(a)} name={`Anim ${a.style}`}>
+          <PopIn style={CARD}>
+            <Anim {...a} />
           </PopIn>
         </Sequence>
       ))}
