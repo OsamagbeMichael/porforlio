@@ -40,3 +40,7 @@ Easiest first. Do each one without looking at the old code (`git stash` or copy 
 ## 7. Add a sixth style
 **Spec:** make `src/anim/Quote.tsx`: a big quote in white on black, with the speaker's name below it in grey. The words fade in one after another (one word every 3 frames). Add its props type to `AnimSpec`, a `case` to `Anim`, and a sample to `ANIM_SAMPLES` in `src/anim/index.tsx`.
 **Check:** it appears in Studio under "Styles", and `npm run lint` passes. TypeScript tells you if the `switch` misses your new style.
+
+## 8. Rebuild the notification push-down (`src/anim/Notifications.tsx`)
+**Spec:** each notification arrives on its own frame (`at[i]`). A card's `top` is `210 + pushed * (CARD_H + GAP)`, where `pushed` counts how many notifications arrived **after** it, but smoothly: each later arrival adds `grow(frame, at[j], 8)` (0 → 1), not a sudden 1. Write `pushed` with `slice` and `reduce`.
+**Check:** `npx remotion still notifications out/m8.png --frame=22`: the first card is sliding down while the second fades in on top. At `--frame=75` the three cards are stacked newest first.

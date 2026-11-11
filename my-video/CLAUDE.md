@@ -13,20 +13,45 @@ Data flows one way: `raw.mp4` -> `words.raw.json` -> `cut.json` -> render. Chang
 
 ## Workflow for a new reel
 
+The user stays in control: stop and wait for an OK at every **[check]**. Small steps are easy to change; a finished edit isn't.
+
+0. **Style.** Read `docs/signature-style.md` and `docs/learnings.md` first. If the style file isn't written yet, offer to build it from 3–4 of the user's own videos (instructions in the file).
 1. **Hook.** Read `docs/hooks.md`. Check the take's first sentence against the patterns. If it's weak, say which pattern fits better (the user re-records; we never fake a hook).
-2. **Rough cut.** `npm run transcribe -- <slug>`, then read `words.raw.json`. When a line is said twice, keep the better take (usually the last, complete one) and put the other in `drops.json`. Then run `npm run cut -- <slug>`. Fillers and pauses over `MAX_GAP` are cut automatically (`src/edit.ts`).
+2. **Rough cut.** `npm run transcribe -- <slug>`, then read `words.raw.json`. When a line is said twice, keep the better take (usually the last, complete one) and put the other in `drops.json`. Then run `npm run cut -- <slug>`. Fillers and pauses over `MAX_GAP` are cut automatically (`src/edit.ts`). **[check]** Show what was dropped and the new length.
+2b. **Direction and storyboard.** Ask for the creative direction (feeling, audience, the one thing to remember). Then write `public/reels/<slug>/storyboard.md`: one line per beat with its time, the words said, and the label / b-roll / anim / music planned for it. **[check]** Change the storyboard, not `reel.json`, until it's approved.
 3. **Subtitles.** These are automatic: `pageWords` in `src/edit.ts` builds cues of up to 3 words.
 4. **Music.** Pick a track from `docs/music-library.md` by the video's feeling. If the user gives a link, run `npm run music -- <url>` and add the track to the library. Set `reel.json` `music` and keep the volume at 0.05–0.12 under speech.
 5. **B-roll.** File everything first (rule below). Then add `broll` entries to `reel.json`, timed to the words in `cut.json` that mention the thing. Show each one for 2–4 s. For a website, screenshot it with the browser tool into the reel folder.
 5b. **Animated graphics.** When the take names a number, a place-to-place trip, the parts of a thing, a headline or a saying, add an `anim` entry to `reel.json` instead of a still. Time it like b-roll (2–4 s, starting on the word). Styles live in `src/anim/`; sample props for each are in `ANIM_SAMPLES` (`src/anim/index.tsx`) and preview in Studio under "Styles":
-   - `stat-chart`: one big number + a line chart (`value`, `prefix`, `suffix`, `label`, `points`, `callout`)
-   - `paper-desk`: a headline printed on paper (`headline`, `kicker`, `points`)
-   - `map-route`: a route drawn across a made-up city (`stops`, 2–4 names)
-   - `teardown`: an exploded view with labeled layers (`title`, `parts`, top first)
-   - `ink-wash`: a saying painted in ink (`text`, `sub`)
-   Don't overlap an `anim` with `broll` or a label: they share the same spot on screen.
+   | Say this in the take | Style | Props |
+   | --- | --- | --- |
+   | a number that grew | `stat-chart` | `value`, `prefix`, `suffix`, `label`, `points`, `callout` |
+   | a study / news headline | `paper-desk` | `headline`, `kicker`, `points` |
+   | going from A to B | `map-route` | `stops` (2–4) |
+   | what's inside something | `teardown` | `title`, `parts` (top first) |
+   | a saying or quote | `ink-wash` | `text`, `sub` |
+   | a punchy sentence | `kinetic-type` | `text`, `color` |
+   | a teaser / "stay tuned" | `retro-crt` | `text`, `sub` |
+   | a bold 1–3 word title | `risograph` | `lines` |
+   | a structured title, chapters | `swiss-grid` | `lines`, `tags` |
+   | how something is built / sized | `blueprint` | `title`, `width`, `height` |
+   | "in sync", rhythm, a signal | `oscilloscope` | `text` |
+   | reach across countries | `globe-arcs` | `from`, `to` (`{name, lat, lon}`), `label`, `value`, `unit` |
+   | a makeover | `before-after` | `before`, `after` (image paths), `title` |
+   | a process in steps | `iso-flow` | `title`, `steps` (2–5) |
+   | sales or messages coming in | `notifications` | `app`, `items` (`{title, body}`), `time`, `date` |
+   | a streak / challenge day | `day-counter` | `day`, `kicker`, `month` |
+   | launching a site or app | `laptop-reveal` | `src` (screenshot path), `caption` |
+
+   Don't overlap an `anim` with `broll` or a label: they share the same spot on screen. To add a style from a reference, follow `docs/inspiration.md`.
 6. **Transitions.** Hard cuts, plus a punch-in zoom every `ZOOM_EVERY` cuts (`src/Reel.tsx`). Nothing to do per reel.
 7. **Call to action.** The last line of the take. Add a label for it only if the user asks.
+8. **Opening first.** Render only the first ~12 s (`--frames=0-359`) and stills of its graphics. **[check]** Only after the opening is approved, render the whole reel.
+9. **Final review.** The user gives fixes by timestamp ("at 0:06, move the caption up"). Fix, re-render, repeat until they say it's approved.
+10. **Learnings.** On approval, add one dated line to `docs/learnings.md`: what the user changed and what that says about their taste. If it's a lasting rule, propose the edit to `docs/signature-style.md`.
+
+### After posting (48 hours later)
+Ask the user for the post's numbers: views, average watch time, and the retention curve (a screenshot is fine; it goes in the reel folder). Write them to `public/reels/<slug>/stats.md` with where viewers dropped off, matched to the words in `cut.json` at that time. Add one line to `docs/learnings.md` and suggest what the next reel or a re-cut should change (a different hook, a shorter middle). Claude doesn't log into TikTok or Instagram itself; the user reads the numbers from the app.
 
 Add section `labels` ("1: The hook") when the reel is a numbered list. Show each one for about 2 s, starting on the word that names the section.
 
@@ -39,6 +64,7 @@ Name files `YYYY-MM-DD_<what>.<ext>`.
 ```bash
 npx remotion render Reel out/<slug>.mp4 --props='{"slug":"<slug>"}'
 npx remotion still Reel out/still.png --frame=<n> --props='{"slug":"<slug>"}'
+npx remotion render Reel out/<slug>-opening.mp4 --frames=0-359 --props='{"slug":"<slug>"}'
 ```
 Look at stills at the labels and b-roll times before calling a reel done. `npm test` checks the cut and caption logic.
 To learn a creator's editing style: `npm run study -- <youtube-url>`, then distil `research/*.md` into `docs/editor-rules.md`.
