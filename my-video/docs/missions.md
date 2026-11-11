@@ -44,3 +44,11 @@ Easiest first. Do each one without looking at the old code (`git stash` or copy 
 ## 8. Rebuild the notification push-down (`src/anim/Notifications.tsx`)
 **Spec:** each notification arrives on its own frame (`at[i]`). A card's `top` is `210 + pushed * (CARD_H + GAP)`, where `pushed` counts how many notifications arrived **after** it, but smoothly: each later arrival adds `grow(frame, at[j], 8)` (0 → 1), not a sudden 1. Write `pushed` with `slice` and `reduce`.
 **Check:** `npx remotion still notifications out/m8.png --frame=22`: the first card is sliding down while the second fades in on top. At `--frame=75` the three cards are stacked newest first.
+
+## 9. Rebuild `bigCuts` (`src/edit.ts`)
+**Spec:** given the kept `segments` (raw-take seconds), return the **edit** time of every cut where more than `BIG_CUT` seconds of raw take was skipped. Walk the segments once, keep a running total of edit time `t` (add each segment's length), and push `t` when the gap to the next segment's `start` is bigger than `BIG_CUT`.
+**Check:** `npm test`. The test expects `[1.8]` for segments `0–1`, `1.2–2`, `5–6`: the first gap (0.2 s) is small, the second (3 s) is big.
+
+## 10. Add an item to the tier list on a schedule (`src/anim/TierList.tsx`)
+**Spec:** items drop in one every 6 frames across **all** rows, best row first. Today a counter `n` outside the loop does it. Rewrite it without the outside counter: work out each item's position in the whole list from the row lengths before it (`tiers.slice(0, r)` and `reduce`).
+**Check:** `npx remotion still tier-list out/m10.png --frame=20` shows only the first item; at `--frame=75` all items are in place. `npm run lint` passes.

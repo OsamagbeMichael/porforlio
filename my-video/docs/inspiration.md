@@ -11,6 +11,19 @@ Find a reference first, then describe exactly what you like about it: the colour
 | MotionSites | Website designs with starter prompts |
 | Savee | Visual moodboards when you don't know yet what you want |
 | Motionographer | Launch films and motion design worth studying |
+| Shadertoy | Live shader animations to use as backgrounds in videos or sites |
+| ASCII Magic | Turns images or clips into ASCII art, for a Y2K look |
+| Kitbitz | Free hand-drawn illustrations to build a little world from |
+| Public Domain Image Archive | Curated historical images and art, free to reuse |
+| Your Name in Landsat (NASA) | Spells words from satellite photos of landmarks |
+| Khroma | Pick 50 colours you like; it learns your taste and makes palettes |
+| Designspiration | Search real design work by up to 5 colours |
+| Kosmik | An AI moodboard that tags saves by colour and style and finds related work |
+| Pinterest | Search the style names in `docs/design-principles.md` (repo root) |
+
+**Palette tip:** when a tool asks for colours, pick two that sit opposite on the colour wheel; the results are far more striking.
+
+See also: `docs/design-principles.md` (hierarchy, colour, style names) and `docs/website-ideas.md` at the repo root.
 
 ## Turning a reference into a style here
 1. Screenshot or save the reference into `research/` (never into a reel folder, never published).
