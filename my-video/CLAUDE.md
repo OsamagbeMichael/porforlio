@@ -42,12 +42,16 @@ The user stays in control: stop and wait for an OK at every **[check]**. Small s
    | sales or messages coming in | `notifications` | `app`, `items` (`{title, body}`), `time`, `date` |
    | a streak / challenge day | `day-counter` | `day`, `kicker`, `month` |
    | launching a site or app | `laptop-reveal` | `src` (screenshot path), `caption` |
+   | showing off a website you built | `scroll-showcase` | `src` (full-page screenshot), `title`, `url` |
+   | "step 1, step 2…" in a how-to | `step-card` | `step`, `label`, `text`, `accent` |
+   | a numbered tip in a list | `sketch-note` | `title`, `number`, `src` (optional drawing) |
 
    Don't overlap an `anim` with `broll` or a label: they share the same spot on screen. To add a style from a reference, follow `docs/inspiration.md`.
 6. **Transitions.** Hard cuts, plus a punch-in zoom every `ZOOM_EVERY` cuts (`src/Reel.tsx`). Nothing to do per reel.
 7. **Call to action.** The last line of the take. Add a label for it only if the user asks.
 8. **Opening first.** Render only the first ~12 s (`--frames=0-359`) and stills of its graphics. **[check]** Only after the opening is approved, render the whole reel.
 9. **Final review.** The user gives fixes by timestamp ("at 0:06, move the caption up"). Fix, re-render, repeat until they say it's approved.
+9b. **Keywords and caption.** Pick 3–5 niche keywords (ask Claude for them from a screenshot of the profile grid). Check the main one is **said** in the first 3 s, **shown** in an on-screen title (label or anim), and in the caption's first line; suggest it for the bio if it's missing. Keywords stay visible: no hidden text layers. Write the caption with the `instagram-agent:ig-caption` skill.
 10. **Learnings.** On approval, add one dated line to `docs/learnings.md`: what the user changed and what that says about their taste. If it's a lasting rule, propose the edit to `docs/signature-style.md`.
 
 ### After posting (48 hours later)
@@ -67,4 +71,5 @@ npx remotion still Reel out/still.png --frame=<n> --props='{"slug":"<slug>"}'
 npx remotion render Reel out/<slug>-opening.mp4 --frames=0-359 --props='{"slug":"<slug>"}'
 ```
 Look at stills at the labels and b-roll times before calling a reel done. `npm test` checks the cut and caption logic.
+For AI-generated b-roll (walkthroughs, product shots), follow `docs/ai-broll.md`.
 To learn a creator's editing style: `npm run study -- <youtube-url>`, then distil `research/*.md` into `docs/editor-rules.md`.
