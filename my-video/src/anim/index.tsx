@@ -17,6 +17,7 @@ import { MapRoute, MapRouteProps } from "./MapRoute";
 import { Notifications, NotificationsProps } from "./Notifications";
 import { Oscilloscope, OscilloscopeProps } from "./Oscilloscope";
 import { PaperDesk, PaperDeskProps } from "./PaperDesk";
+import { QuoteDoc, QuoteDocProps } from "./QuoteDoc";
 import { RetroCrt, RetroCrtProps } from "./RetroCrt";
 import { Risograph, RisographProps } from "./Risograph";
 import { ScrollShowcase, ScrollShowcaseProps } from "./ScrollShowcase";
@@ -54,7 +55,8 @@ export type AnimSpec =
   | DesktopCoreProps
   | ScrapbookProps
   | BentoProps
-  | ExplainerProps;
+  | ExplainerProps
+  | QuoteDocProps;
 
 export const Anim: React.FC<AnimSpec> = (p) => {
   switch (p.style) {
@@ -112,6 +114,8 @@ export const Anim: React.FC<AnimSpec> = (p) => {
       return <Bento {...p} />;
     case "explainer":
       return <Explainer {...p} />;
+    case "quote-doc":
+      return <QuoteDoc {...p} />;
   }
 };
 
@@ -179,4 +183,10 @@ export const ANIM_SAMPLES: AnimSpec[] = [
     ],
   },
   { style: "explainer", tag: "RGB split", text: "Simple effects make an edit look expensive.", src: SHOT },
+  {
+    style: "quote-doc",
+    source: "A study on short video, 2026",
+    text: "Viewers were shown the same clip with and without captions. Retention rose when captions were short and in sync with speech. Long blocks of text on screen had the opposite effect, and most viewers left within three seconds.",
+    highlight: "Retention rose when captions were short and in sync with speech.",
+  },
 ];

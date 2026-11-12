@@ -45,3 +45,6 @@ export const along = (pts: number[][], t: number) => {
 
 // Draw-on trick: with pathLength={1} every path is 1 unit long, so the dash offset is just 1 - progress.
 export const drawOn = (progress: number) => ({ pathLength: 1, strokeDasharray: 1, strokeDashoffset: 1 - progress });
+
+// A shadow straight below (light from above) with blur = 3 x distance: the further it falls, the more it floats.
+export const floatShadow = (distance: number, opacity = 0.35) => `0 ${distance}px ${distance * 3}px rgba(0,0,0,${opacity})`;

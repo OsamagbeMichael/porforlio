@@ -1,5 +1,29 @@
 import { AbsoluteFill, random, useCurrentFrame } from "remotion";
 
+// Old TV / documentary look: a fine scanline grid multiplied over the picture, a soft glow,
+// and a curved, darkened screen edge. Used by b-roll entries with `"look": "crt"`.
+export const Crt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const frame = useCurrentFrame();
+  const roll = (frame * 2) % 6; // scanlines creep down slowly, like a real tube
+
+  return (
+    <AbsoluteFill style={{ background: "black", padding: 18 }}>
+      <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: "9% / 12%", overflow: "hidden" }}>
+        <AbsoluteFill style={{ scale: "1.04", filter: "saturate(1.15) contrast(1.1) brightness(1.05)" }}>{children}</AbsoluteFill>
+        {/* Glow: a blurred copy of the light would be costly on video, so a soft screen-blend wash stands in. */}
+        <AbsoluteFill style={{ background: "radial-gradient(ellipse at center, rgba(160,220,255,0.18), transparent 70%)", mixBlendMode: "screen" }} />
+        <AbsoluteFill
+          style={{
+            background: `repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0 2px, transparent 2px 6px) 0 ${roll}px, repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 1px, transparent 1px 4px)`,
+            mixBlendMode: "multiply",
+          }}
+        />
+        <AbsoluteFill style={{ boxShadow: "inset 0 0 90px 30px rgba(0,0,0,0.85)", borderRadius: "9% / 12%" }} />
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 // "Old camera" treatment for a plain screenshot or clip: paper texture, RGB split, film grain,
 // a slight flicker and a vignette. Used by b-roll entries with `"look": "vintage"`.
 export const Vintage: React.FC<{ children: React.ReactNode }> = ({ children }) => {

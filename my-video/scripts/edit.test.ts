@@ -31,6 +31,9 @@ const cues = pageWords([w("one", 0, 0.2), w("two", 0.3, 0.5), w("three.", 0.6, 0
 assert.deepEqual(cues.map((c) => c.text), ["one two three.", "four"]);
 assert.equal(cues[0].end, 0.8 + 2.0); // held MAX_HOLD over the long silence, not until 9 s
 assert.deepEqual(pageWords([w("a.", 0, 1), w("b", 1, 2)]).map((c) => c.text), ["a.", "b"]);
+// Serif captions allow longer lines: 5 words stay together with maxWords 7.
+const five = ["one", "two", "three", "four", "five"].map((t, i) => w(t, i, i + 0.5));
+assert.deepEqual(pageWords(five, 7).map((c) => c.text), ["one two three four five"]);
 
 // Only the cut that skipped 3 s of raw take is a big jump; it lands where segment 2 ends in the edit.
 const s3 = [{ start: 0, end: 1 }, { start: 1.2, end: 2 }, { start: 5, end: 6 }];

@@ -13,6 +13,7 @@ export const FILLERS = new Set(["um", "uh", "uhm", "erm", "ah", "hmm", "mm"]);
 
 // Caption knobs (same meaning as the reel's captions.py).
 export const MAX_WORDS = 3; // words per cue before we look for a break
+export const SERIF_WORDS = 7; // calm serif captions read as short lines, not pops (older audiences)
 export const GAP_LEAD = 0.02; // a cue ends this long before the next one starts
 export const MAX_HOLD = 2.0; // never let a cue hold longer than this over a silence
 
@@ -78,11 +79,11 @@ export const bigCuts = (segments: Segment[]) => {
   return out;
 };
 
-export const pageWords =(words: Word[]): Cue[] => {
+export const pageWords = (words: Word[], maxWords = MAX_WORDS): Cue[] => {
   const groups: Word[][] = [];
   for (const w of words) {
     const g = groups[groups.length - 1];
-    if (g && g.length < MAX_WORDS && !/[.?!]$/.test(g[g.length - 1].text.trim())) g.push(w);
+    if (g && g.length < maxWords && !/[.?!]$/.test(g[g.length - 1].text.trim())) g.push(w);
     else groups.push([w]);
   }
   return groups.map((g, i) => {
