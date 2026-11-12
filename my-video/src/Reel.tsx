@@ -10,7 +10,7 @@ import {
   useCurrentFrame,
 } from "remotion";
 import { Anim, AnimSpec } from "./anim";
-import { floatShadow } from "./anim/util";
+import { SANS, floatShadow } from "./anim/util";
 import { FPS, MAX_WORDS, SERIF_WORDS, Segment, Word, pageWords } from "./edit";
 import { Crt, Vintage } from "./Looks";
 
@@ -27,6 +27,7 @@ export type ReelData = {
   sfx?: { at: number; src: string; volume?: number; rate?: number; pitch?: number }[];
   captionStyle?: "bold" | "serif"; // bold: 3-word uppercase pops (young audience); serif: longer calm lines (older audience)
   zoomEvery?: number; // punch in on every Nth cut; 2 = every other cut, for reels with no b-roll
+  behind?: (Timed & { text: string; color?: string })[]; // big word behind the speaker; needs: npm run matte -- <slug>
 };
 export type ReelProps = { slug: string; data?: ReelData };
 
@@ -63,6 +64,31 @@ const media = (src: string, focus?: [number, number]) =>
   isVideo(src) ? <Video src={staticFile(src)} muted objectFit="cover" style={{ width: "100%", height: "100%" }} /> : <Photo src={src} focus={focus} />;
 const LOOKS = { vintage: Vintage, crt: Crt };
 
+// The word that stands behind the speaker: drawn over the raw take, under the matte (cut-out person).
+const BehindText: React.FC<{ text: string; color?: string }> = ({ text, color = "white" }) => {
+  // TODO(Osama): the entrance. See docs/missions.md, mission 11. Until then the word just appears.
+  const rise = 1;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 420,
+        width: "100%",
+        textAlign: "center",
+        font: `900 ${Math.min(380, 1500 / Math.max(3, text.length))}px ${SANS}`,
+        letterSpacing: "-0.04em",
+        lineHeight: 0.9,
+        textTransform: "uppercase",
+        color,
+        translate: `0 ${(1 - rise) * 120}px`,
+        opacity: rise,
+      }}
+    >
+      {text}
+    </div>
+  );
+};
+
 const CAPTION: Record<"bold" | "serif", React.CSSProperties> = {
   bold: {
     color: "white",
@@ -80,24 +106,39 @@ export const Reel: React.FC<ReelProps> = ({ slug, data }) => {
   if (!data) return null;
   const zoomEvery = data.zoomEvery ?? ZOOM_EVERY;
   const at = (t: Timed) => ({ from: frames(t.start), durationInFrames: Math.max(1, frames(t.end) - frames(t.start)) });
+  // The kept segments of one file. The raw take and its matte both use this, so trims and punch-ins line up exactly.
+  const takes = (file: string) => (
+    <Series>
+      {data.segments.map((s, i) => (
+        <Series.Sequence key={i} durationInFrames={frames(s.end) - frames(s.start)} name={`Cut ${i + 1}`}>
+          <AbsoluteFill style={{ scale: i % zoomEvery === zoomEvery - 1 ? String(ZOOM) : "1", transformOrigin: "50% 35%" }}>
+            <Video
+              src={staticFile(`reels/${slug}/${file}`)}
+              trimBefore={frames(s.start)}
+              trimAfter={frames(s.end)}
+              muted={file !== "raw.mp4"}
+              objectFit="cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </AbsoluteFill>
+        </Series.Sequence>
+      ))}
+    </Series>
+  );
 
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
-      <Series>
-        {data.segments.map((s, i) => (
-          <Series.Sequence key={i} durationInFrames={frames(s.end) - frames(s.start)} name={`Cut ${i + 1}`}>
-            <AbsoluteFill style={{ scale: i % zoomEvery === zoomEvery - 1 ? String(ZOOM) : "1", transformOrigin: "50% 35%" }}>
-              <Video
-                src={staticFile(`reels/${slug}/raw.mp4`)}
-                trimBefore={frames(s.start)}
-                trimAfter={frames(s.end)}
-                objectFit="cover"
-                style={{ width: "100%", height: "100%" }}
-              />
-            </AbsoluteFill>
-          </Series.Sequence>
-        ))}
-      </Series>
+      {takes("raw.mp4")}
+
+      {data.behind?.map((b, i) => (
+        <Sequence key={`w${i}`} {...at(b)} name={`Behind ${b.text}`}>
+          <BehindText text={b.text} color={b.color} />
+          {/* from = -start puts the matte back on the edit's clock, so it shows the same frame as the raw take. */}
+          <Sequence from={-frames(b.start)} name="Matte">
+            {takes("matte.webm")}
+          </Sequence>
+        </Sequence>
+      ))}
 
       {data.broll?.map((b, i) => (
         <Sequence key={`b${i}`} {...at(b)} name={`B-roll ${b.src}`}>

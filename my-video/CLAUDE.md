@@ -9,7 +9,8 @@ Data flows one way: `raw.mp4` -> `words.raw.json` -> `cut.json` -> render. Chang
 | `words.raw.json` | `npm run transcribe -- <slug>` | raw take |
 | `drops.json` | Claude: `[[start, end], ...]` ranges to throw away | raw take |
 | `cut.json` | `npm run cut -- <slug>`: kept segments and retimed words | segments: raw take, words: edit |
-| `reel.json` | Claude: labels, b-roll (`look`, `focus`), anim, music, sfx, captionStyle, zoomEvery | edit |
+| `reel.json` | Claude: labels, b-roll (`look`, `focus`), anim, behind, music, sfx, captionStyle, zoomEvery | edit |
+| `matte.webm` | `npm run matte -- <slug>`: the speaker cut out of `raw.mp4` (gitignored) | raw take |
 
 ## Workflow for a new reel
 
@@ -46,6 +47,7 @@ The user stays in control: stop and wait for an OK at every **[check]**. Small s
    | "step 1, step 2…" in a how-to | `step-card` | `step`, `label`, `text`, `accent` |
    | a numbered tip in a list | `sketch-note` | `title`, `number`, `src` (optional drawing) |
    | a product or person as the hero | `text-behind` | `text`, `subject` (cut-out PNG), `bg`, `color` |
+   | one big word with the speaker standing in front of it | `behind` (own `reel.json` list, not `anim`) | `text`, `color`, `start`, `end` |
    | one strong word over footage | `footage-text` | `text`, `src` (image or clip), `color`, `sub` |
    | ranking things best to worst | `tier-list` | `title`, `tiers` (`{label?, items}`, best first) |
    | files, apps, "my computer" | `desktop-core` | `title`, `files`, `src`, `time` |
@@ -57,6 +59,7 @@ The user stays in control: stop and wait for an OK at every **[check]**. Small s
 
    Don't overlap an `anim` with `broll` or a label: they share the same spot on screen. To add a style from a reference, follow `docs/inspiration.md`.
    For `text-behind`, cut the subject out on this Mac first: `npm run cutout -- <photo> public/b-roll/<category>/<name>.png`.
+   For `behind`, run `npm run matte -- <slug>` once per take (about 4 min for 25 s, offline). The word sits at the top third and the speaker's head should overlap it: pick a stretch where the head is clear of other graphics, keep it to 1 word, 1–3 s, and don't overlap a label. Check a still: the hair must cover the bottom of the letters.
 5c. **Jump cuts and sound.** Run `npm run jumps -- <slug>` and cover every jump it lists with b-roll or an anim. Add `sfx` entries only where something happens on screen; at most 3 different files, varied with `rate`/`pitch` (`docs/editor-rules.md`).
 6. **Transitions.** Hard cuts, plus a punch-in zoom every `ZOOM_EVERY` cuts (`src/Reel.tsx`). Nothing to do per reel.
 7. **Call to action.** The last line of the take. Add a label for it only if the user asks.
@@ -83,6 +86,7 @@ npx remotion render Reel out/<slug>-opening.mp4 --frames=0-359 --props='{"slug":
 npm run jumps -- <slug>    # big jump cuts not yet covered by b-roll
 npm run master -- <slug>   # out/<slug>.mp4 -> out/<slug>-master.mp4 at -14 LUFS
 npm run cutout -- <photo> <out.png>   # subject cut-out for text-behind (Apple Vision, offline)
+npm run matte -- <slug>    # raw.mp4 -> matte.webm, the speaker cut out for reel.json behind (Apple Vision + ffmpeg, offline)
 ```
 Look at stills at the labels and b-roll times before calling a reel done. `npm test` checks the cut and caption logic.
 For AI-generated b-roll (walkthroughs, product shots), follow `docs/ai-broll.md`.

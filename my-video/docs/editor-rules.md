@@ -28,6 +28,7 @@ The numbers live in `src/edit.ts` and `src/Reel.tsx`. This file says why. Update
 | Only one shot and no b-roll | `"zoomEvery": 2` (punch in every other cut) + `explainer` cards with `color` | `reel.json` |
 | Card shadow | straight down, blur = 3 × distance (20 → 60) | `floatShadow` in `src/anim/util.ts` |
 | Quoting a book or paper | `quote-doc`: highlight → dim the rest → ease in | `reel.json` `anim` |
+| Word behind the speaker | 1 word, 1–3 s, top third, head overlapping the letters | `reel.json` `behind`, `npm run matte -- <slug>` |
 
 Why: on a phone, dead air is where people swipe. Short captions can be read at a glance, and a zoom on a hard cut resets attention without a flashy transition.
 
@@ -40,6 +41,7 @@ Why the newer rules:
 - **Photos as b-roll.** A still that doesn't move kills momentum, so every photo pushes in slowly. When cutting fast between photos, line the eyes up on the same spot (`focus`) so viewers don't have to hunt for the face; a shutter click on each cut feels like flipping through memories.
 - **Shadows.** A flat, offset shadow looks cheap. Light from straight above, blur three times the distance; more distance = more "floating", which makes pop-in animations feel lighter.
 - **J- and L-cuts.** In a two-person video, let the next voice start before the cut (J) or let the picture change while the last sentence finishes (L). Hard cuts exactly on the speaker change look choppy. For solo reels, the same idea is why b-roll starts ~0.3 s before the line it illustrates.
+- **Text behind the speaker.** A word that the head passes in front of looks placed in the room, not pasted on the screen, so it reads as a produced edit. It only works when the head really overlaps the letters; with no overlap it's just a big title. Use it on the one word that matters, not as a caption style. The matte is the raw take with everything but the person made transparent, drawn on the same cuts and zoom as the take, so it never drifts.
 - **Spend effort on fundamentals.** Claude handles cuts and captions well; the script, the hook and the rhythm are where your time pays off (`docs/hooks.md`).
 
 <!-- Add rules learned with `npm run study` below, each with a number. -->

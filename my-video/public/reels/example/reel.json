@@ -38,5 +38,12 @@
   "music": {
     "src": "music/example.mp3",
     "volume": 0.05
-  }
+  },
+  "behind": [
+    {
+      "text": "hooks",
+      "start": 0.3,
+      "end": 3.3
+    }
+  ]
 }

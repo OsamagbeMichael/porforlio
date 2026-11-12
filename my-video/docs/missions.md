@@ -52,3 +52,7 @@ Easiest first. Do each one without looking at the old code (`git stash` or copy 
 ## 10. Add an item to the tier list on a schedule (`src/anim/TierList.tsx`)
 **Spec:** items drop in one every 6 frames across **all** rows, best row first. Today a counter `n` outside the loop does it. Rewrite it without the outside counter: work out each item's position in the whole list from the row lengths before it (`tiers.slice(0, r)` and `reduce`).
 **Check:** `npx remotion still tier-list out/m10.png --frame=20` shows only the first item; at `--frame=75` all items are in place. `npm run lint` passes.
+
+## 11. Make the behind-the-speaker word rise in (your piece, nothing to stash)
+**Spec:** in `BehindText` (`src/Reel.tsx`), replace `const rise = 1` so the word starts 120px lower at 0 opacity and rises into place over frames 0–12, easing out. The `translate` and `opacity` lines already use `rise`. Bonus: fade it out over its last 6 frames (`useVideoConfig().durationInFrames` is the length of its `Sequence`).
+**Check:** `npx remotion still Reel out/m11.png --frame=13 --props='{"slug":"example"}'` shows the word low and faint (it starts at frame 9, 0.3 s). At `--frame=30` it's in place, behind the hair. `npm run lint` passes.
