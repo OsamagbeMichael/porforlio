@@ -1,0 +1,196 @@
+import { Audio, Video } from "@remotion/media";
+import {
+  AbsoluteFill,
+  CalculateMetadataFunction,
+  Img,
+  Sequence,
+  Series,
+  interpolate,
+  staticFile,
+  useCurrentFrame,
+} from "remotion";
+import { Anim, AnimSpec } from "./anim";
+import { SANS, floatShadow } from "./anim/util";
+import { FPS, MAX_WORDS, SERIF_WORDS, Segment, Word, pageWords } from "./edit";
+import { Crt, Vintage } from "./Looks";
+
+// Everything below is in seconds of the finished edit, except segments (raw take).
+type Timed = { start: number; end: number };
+export type ReelData = {
+  segments: Segment[]; // from cut.json
+  words: Word[]; // from cut.json
+  labels?: (Timed & { text: string })[]; // "1: The hook" section cards
+  broll?: (Timed & { src: string; look?: "vintage" | "crt"; focus?: [number, number] })[]; // path under public/; focus: % x,y kept in place (eyes)
+  anim?: (Timed & AnimSpec)[]; // animated graphics drawn in the b-roll card (src/anim/)
+  music?: { src: string; volume?: number };
+  // Sound effects at edit seconds. Reuse at most 3 files; vary them with rate/pitch (docs/editor-rules.md).
+  sfx?: { at: number; src: string; volume?: number; rate?: number; pitch?: number }[];
+  captionStyle?: "bold" | "serif"; // bold: 3-word uppercase pops (young audience); serif: longer calm lines (older audience)
+  zoomEvery?: number; // punch in on every Nth cut; 2 = every other cut, for reels with no b-roll
+  behind?: (Timed & { text: string; color?: string })[]; // big word behind the speaker; needs: npm run matte -- <slug>
+};
+export type ReelProps = { slug: string; data?: ReelData };
+
+const frames = (s: number) => Math.round(s * FPS);
+const ZOOM_EVERY = 3; // default: punch in on every 3rd cut so hard cuts don't feel static
+const ZOOM = 1.12;
+
+export const calculateReelMetadata: CalculateMetadataFunction<ReelProps> = async ({ props }) => {
+  const get = async (f: string) => {
+    const res = await fetch(staticFile(`reels/${props.slug}/${f}`));
+    return res.ok ? res.json() : null;
+  };
+  const cut = await get("cut.json");
+  if (!cut) throw new Error(`public/reels/${props.slug}/cut.json missing - run: npm run cut -- ${props.slug}`);
+  const data: ReelData = { ...cut, ...(await get("reel.json")) };
+  const durationInFrames = data.segments.reduce((n, s) => n + frames(s.end) - frames(s.start), 0);
+  return { durationInFrames: Math.max(1, durationInFrames), props: { ...props, data } };
+};
+
+const PopIn: React.FC<{ children: React.ReactNode; style: React.CSSProperties }> = ({ children, style }) => {
+  const frame = useCurrentFrame();
+  const scale = interpolate(frame, [0, 4], [0.85, 1], { extrapolateRight: "clamp" });
+  return <div style={{ position: "absolute", scale: String(scale), ...style }}>{children}</div>;
+};
+
+const isVideo = (src: string) => /\.(mp4|mov|webm|m4v)$/i.test(src);
+// A still photo never sits still: a slow push-in, centred on `focus` so eyes stay put across quick photo cuts.
+const Photo: React.FC<{ src: string; focus?: [number, number] }> = ({ src, focus = [50, 40] }) => {
+  const frame = useCurrentFrame();
+  const pos = `${focus[0]}% ${focus[1]}%`;
+  return <Img src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: pos, transformOrigin: pos, scale: String(1 + frame * 0.0012) }} />;
+};
+const media = (src: string, focus?: [number, number]) =>
+  isVideo(src) ? <Video src={staticFile(src)} muted objectFit="cover" style={{ width: "100%", height: "100%" }} /> : <Photo src={src} focus={focus} />;
+const LOOKS = { vintage: Vintage, crt: Crt };
+
+// The word that stands behind the speaker: drawn over the raw take, under the matte (cut-out person).
+const BehindText: React.FC<{ text: string; color?: string }> = ({ text, color = "white" }) => {
+  // TODO(Osama): the entrance. See docs/missions.md, mission 11. Until then the word just appears.
+  const rise = 1;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 420,
+        width: "100%",
+        textAlign: "center",
+        font: `900 ${Math.min(380, 1500 / Math.max(3, text.length))}px ${SANS}`,
+        letterSpacing: "-0.04em",
+        lineHeight: 0.9,
+        textTransform: "uppercase",
+        color,
+        translate: `0 ${(1 - rise) * 120}px`,
+        opacity: rise,
+      }}
+    >
+      {text}
+    </div>
+  );
+};
+
+const CAPTION: Record<"bold" | "serif", React.CSSProperties> = {
+  bold: {
+    color: "white",
+    font: "900 76px 'Helvetica Neue', Arial, sans-serif",
+    textTransform: "uppercase",
+    WebkitTextStroke: "10px black",
+    paintOrder: "stroke fill",
+  },
+  serif: { color: "white", font: "500 58px Georgia, 'Times New Roman', serif", lineHeight: 1.25 },
+};
+// The b-roll card: 940 x 680 near the top, so the face and captions stay visible below it.
+const CARD: React.CSSProperties = { top: 110, left: 70, right: 70, height: 680, borderRadius: 28, overflow: "hidden", boxShadow: floatShadow(20, 0.5) };
+
+export const Reel: React.FC<ReelProps> = ({ slug, data }) => {
+  if (!data) return null;
+  const zoomEvery = data.zoomEvery ?? ZOOM_EVERY;
+  const at = (t: Timed) => ({ from: frames(t.start), durationInFrames: Math.max(1, frames(t.end) - frames(t.start)) });
+  // The kept segments of one file. The raw take and its matte both use this, so trims and punch-ins line up exactly.
+  const takes = (file: string) => (
+    <Series>
+      {data.segments.map((s, i) => (
+        <Series.Sequence key={i} durationInFrames={frames(s.end) - frames(s.start)} name={`Cut ${i + 1}`}>
+          <AbsoluteFill style={{ scale: i % zoomEvery === zoomEvery - 1 ? String(ZOOM) : "1", transformOrigin: "50% 35%" }}>
+            <Video
+              src={staticFile(`reels/${slug}/${file}`)}
+              trimBefore={frames(s.start)}
+              trimAfter={frames(s.end)}
+              muted={file !== "raw.mp4"}
+              objectFit="cover"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </AbsoluteFill>
+        </Series.Sequence>
+      ))}
+    </Series>
+  );
+
+  return (
+    <AbsoluteFill style={{ backgroundColor: "black" }}>
+      {takes("raw.mp4")}
+
+      {data.behind?.map((b, i) => (
+        <Sequence key={`w${i}`} {...at(b)} name={`Behind ${b.text}`}>
+          <BehindText text={b.text} color={b.color} />
+          {/* from = -start puts the matte back on the edit's clock, so it shows the same frame as the raw take. */}
+          <Sequence from={-frames(b.start)} name="Matte">
+            {takes("matte.webm")}
+          </Sequence>
+        </Sequence>
+      ))}
+
+      {data.broll?.map((b, i) => (
+        <Sequence key={`b${i}`} {...at(b)} name={`B-roll ${b.src}`}>
+          <PopIn style={CARD}>
+            {b.look ? (() => {
+              const Look = LOOKS[b.look];
+              return <Look>{media(b.src, b.focus)}</Look>;
+            })() : media(b.src, b.focus)}
+          </PopIn>
+        </Sequence>
+      ))}
+
+      {data.anim?.map((a, i) => (
+        <Sequence key={`a${i}`} {...at(a)} name={`Anim ${a.style}`}>
+          <PopIn style={CARD}>
+            <Anim {...a} />
+          </PopIn>
+        </Sequence>
+      ))}
+
+      {data.labels?.map((l, i) => (
+        <Sequence key={`l${i}`} {...at(l)} name={`Label ${l.text}`}>
+          <PopIn style={{ top: 330, width: "100%", display: "flex", justifyContent: "center" }}>
+            <div style={{ background: "#111", color: "white", font: "800 64px 'Helvetica Neue', Arial, sans-serif", padding: "14px 34px", borderRadius: 18, rotate: "-2deg" }}>
+              {l.text}
+            </div>
+          </PopIn>
+        </Sequence>
+      ))}
+
+      {pageWords(data.words, data.captionStyle === "serif" ? SERIF_WORDS : MAX_WORDS).map((c, i) => (
+        <Sequence key={`c${i}`} {...at(c)} name={`Caption ${c.text}`}>
+          <div style={{ position: "absolute", top: 1250, width: "100%", padding: "0 60px", textAlign: "center", ...CAPTION[data.captionStyle ?? "bold"] }}>
+            {data.captionStyle === "serif" ? (
+              // The box wraps each line separately, like a subtitle, instead of one big rectangle.
+              <span style={{ background: "rgba(0,0,0,0.55)", padding: "4px 14px", borderRadius: 8, boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone" }}>
+                {c.text}
+              </span>
+            ) : (
+              c.text
+            )}
+          </div>
+        </Sequence>
+      ))}
+
+      {data.sfx?.map((s, i) => (
+        <Sequence key={`s${i}`} from={frames(s.at)} name={`SFX ${s.src}`}>
+          <Audio src={staticFile(s.src)} volume={s.volume ?? 0.5} playbackRate={s.rate ?? 1} toneFrequency={s.pitch ?? 1} />
+        </Sequence>
+      ))}
+
+      {data.music && <Audio src={staticFile(data.music.src)} volume={data.music.volume ?? 0.12} loop />}
+    </AbsoluteFill>
+  );
+};

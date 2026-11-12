@@ -1,0 +1,49 @@
+{
+  "labels": [
+    {
+      "text": "2: Rough cut",
+      "start": 3.4,
+      "end": 5.4
+    },
+    {
+      "text": "3: Subtitles",
+      "start": 11.6,
+      "end": 13.4
+    }
+  ],
+  "broll": [
+    {
+      "src": "b-roll/screens/example.jpg",
+      "start": 6.0,
+      "end": 9.0,
+      "look": "vintage"
+    }
+  ],
+  "anim": [
+    {
+      "style": "stat-chart",
+      "label": "Words on screen at once",
+      "value": 3,
+      "points": [
+        1,
+        2,
+        2,
+        3
+      ],
+      "callout": "Max per cue",
+      "start": 15.4,
+      "end": 18.0
+    }
+  ],
+  "music": {
+    "src": "music/example.mp3",
+    "volume": 0.05
+  },
+  "behind": [
+    {
+      "text": "hooks",
+      "start": 0.3,
+      "end": 3.3
+    }
+  ]
+}

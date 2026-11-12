@@ -1,0 +1,507 @@
+[
+ {
+  "text": "hooks,",
+  "startInSeconds": 0.32,
+  "endInSeconds": 0.72
+ },
+ {
+  "text": " Claude",
+  "startInSeconds": 0.72,
+  "endInSeconds": 0.92
+ },
+ {
+  "text": " picks",
+  "startInSeconds": 0.92,
+  "endInSeconds": 1.08
+ },
+ {
+  "text": " the",
+  "startInSeconds": 1.08,
+  "endInSeconds": 1.24
+ },
+ {
+  "text": " best",
+  "startInSeconds": 1.24,
+  "endInSeconds": 1.42
+ },
+ {
+  "text": " one",
+  "startInSeconds": 1.42,
+  "endInSeconds": 1.6
+ },
+ {
+  "text": " for",
+  "startInSeconds": 1.6,
+  "endInSeconds": 1.78
+ },
+ {
+  "text": " my",
+  "startInSeconds": 1.78,
+  "endInSeconds": 2.02
+ },
+ {
+  "text": " video",
+  "startInSeconds": 2.02,
+  "endInSeconds": 2.26
+ },
+ {
+  "text": " topic",
+  "startInSeconds": 2.26,
+  "endInSeconds": 2.54
+ },
+ {
+  "text": " and",
+  "startInSeconds": 2.54,
+  "endInSeconds": 2.84
+ },
+ {
+  "text": " compares",
+  "startInSeconds": 2.84,
+  "endInSeconds": 3.04
+ },
+ {
+  "text": " them",
+  "startInSeconds": 3.04,
+  "endInSeconds": 3.16
+ },
+ {
+  "text": " to",
+  "startInSeconds": 3.16,
+  "endInSeconds": 3.3
+ },
+ {
+  "text": " my",
+  "startInSeconds": 3.3,
+  "endInSeconds": 3.48
+ },
+ {
+  "text": " best",
+  "startInSeconds": 3.48,
+  "endInSeconds": 3.82
+ },
+ {
+  "text": " performing",
+  "startInSeconds": 3.82,
+  "endInSeconds": 4.2
+ },
+ {
+  "text": " videos.",
+  "startInSeconds": 4.2,
+  "endInSeconds": 4.32
+ },
+ {
+  "text": " Number",
+  "startInSeconds": 4.62,
+  "endInSeconds": 4.94
+ },
+ {
+  "text": " two,",
+  "startInSeconds": 4.94,
+  "endInSeconds": 5.3
+ },
+ {
+  "text": " Rough",
+  "startInSeconds": 5.4,
+  "endInSeconds": 5.58
+ },
+ {
+  "text": " Cut,",
+  "startInSeconds": 5.58,
+  "endInSeconds": 5.88
+ },
+ {
+  "text": " a",
+  "startInSeconds": 5.96,
+  "endInSeconds": 6.1
+ },
+ {
+  "text": " free",
+  "startInSeconds": 6.1,
+  "endInSeconds": 6.34
+ },
+ {
+  "text": " tool",
+  "startInSeconds": 6.34,
+  "endInSeconds": 6.58
+ },
+ {
+  "text": " called",
+  "startInSeconds": 6.58,
+  "endInSeconds": 6.78
+ },
+ {
+  "text": " Whisper",
+  "startInSeconds": 6.78,
+  "endInSeconds": 7.14
+ },
+ {
+  "text": " X",
+  "startInSeconds": 7.14,
+  "endInSeconds": 7.46
+ },
+ {
+  "text": " time",
+  "startInSeconds": 7.46,
+  "endInSeconds": 7.68
+ },
+ {
+  "text": " stamps",
+  "startInSeconds": 7.68,
+  "endInSeconds": 8
+ },
+ {
+  "text": " every",
+  "startInSeconds": 8,
+  "endInSeconds": 8.26
+ },
+ {
+  "text": " single",
+  "startInSeconds": 8.26,
+  "endInSeconds": 8.5
+ },
+ {
+  "text": " word.",
+  "startInSeconds": 8.5,
+  "endInSeconds": 8.82
+ },
+ {
+  "text": " It's",
+  "startInSeconds": 8.82,
+  "endInSeconds": 9
+ },
+ {
+  "text": " able",
+  "startInSeconds": 9,
+  "endInSeconds": 9.04
+ },
+ {
+  "text": " to",
+  "startInSeconds": 9.12,
+  "endInSeconds": 9.12
+ },
+ {
+  "text": " find",
+  "startInSeconds": 9.28,
+  "endInSeconds": 9.5
+ },
+ {
+  "text": " every",
+  "startInSeconds": 9.5,
+  "endInSeconds": 9.74
+ },
+ {
+  "text": " breath,",
+  "startInSeconds": 9.74,
+  "endInSeconds": 9.94
+ },
+ {
+  "text": " pause,",
+  "startInSeconds": 10.14,
+  "endInSeconds": 10.4
+ },
+ {
+  "text": " filler",
+  "startInSeconds": 10.5,
+  "endInSeconds": 10.76
+ },
+ {
+  "text": " word,",
+  "startInSeconds": 10.76,
+  "endInSeconds": 10.86
+ },
+ {
+  "text": " and",
+  "startInSeconds": 11.04,
+  "endInSeconds": 11.24
+ },
+ {
+  "text": " cut",
+  "startInSeconds": 11.24,
+  "endInSeconds": 11.54
+ },
+ {
+  "text": " all",
+  "startInSeconds": 11.54,
+  "endInSeconds": 11.68
+ },
+ {
+  "text": " of",
+  "startInSeconds": 11.68,
+  "endInSeconds": 11.82
+ },
+ {
+  "text": " it.",
+  "startInSeconds": 11.82,
+  "endInSeconds": 11.98
+ },
+ {
+  "text": " If",
+  "startInSeconds": 12.12,
+  "endInSeconds": 12.28
+ },
+ {
+  "text": " I",
+  "startInSeconds": 12.28,
+  "endInSeconds": 12.42
+ },
+ {
+  "text": " say",
+  "startInSeconds": 12.42,
+  "endInSeconds": 12.52
+ },
+ {
+  "text": " a",
+  "startInSeconds": 12.52,
+  "endInSeconds": 12.68
+ },
+ {
+  "text": " line",
+  "startInSeconds": 12.68,
+  "endInSeconds": 12.96
+ },
+ {
+  "text": " twice,",
+  "startInSeconds": 12.96,
+  "endInSeconds": 13.16
+ },
+ {
+  "text": " it",
+  "startInSeconds": 13.32,
+  "endInSeconds": 13.54
+ },
+ {
+  "text": " chooses",
+  "startInSeconds": 13.54,
+  "endInSeconds": 13.68
+ },
+ {
+  "text": " the",
+  "startInSeconds": 13.74,
+  "endInSeconds": 13.78
+ },
+ {
+  "text": " better",
+  "startInSeconds": 13.9,
+  "endInSeconds": 14.2
+ },
+ {
+  "text": " take.",
+  "startInSeconds": 14.2,
+  "endInSeconds": 14.52
+ },
+ {
+  "text": " Number",
+  "startInSeconds": 14.62,
+  "endInSeconds": 14.96
+ },
+ {
+  "text": " three,",
+  "startInSeconds": 14.96,
+  "endInSeconds": 15.3
+ },
+ {
+  "text": " subtitles,",
+  "startInSeconds": 15.58,
+  "endInSeconds": 15.94
+ },
+ {
+  "text": " same",
+  "startInSeconds": 16.12,
+  "endInSeconds": 16.54
+ },
+ {
+  "text": " transcript",
+  "startInSeconds": 16.54,
+  "endInSeconds": 16.86
+ },
+ {
+  "text": " with",
+  "startInSeconds": 16.86,
+  "endInSeconds": 17.04
+ },
+ {
+  "text": " two",
+  "startInSeconds": 17.04,
+  "endInSeconds": 17.1
+ },
+ {
+  "text": " or",
+  "startInSeconds": 17.1,
+  "endInSeconds": 17.24
+ },
+ {
+  "text": " three",
+  "startInSeconds": 17.24,
+  "endInSeconds": 17.42
+ },
+ {
+  "text": " words",
+  "startInSeconds": 17.42,
+  "endInSeconds": 17.58
+ },
+ {
+  "text": " on",
+  "startInSeconds": 17.58,
+  "endInSeconds": 17.78
+ },
+ {
+  "text": " screen",
+  "startInSeconds": 17.78,
+  "endInSeconds": 18
+ },
+ {
+  "text": " at",
+  "startInSeconds": 18,
+  "endInSeconds": 18.12
+ },
+ {
+  "text": " a",
+  "startInSeconds": 18.12,
+  "endInSeconds": 18.32
+ },
+ {
+  "text": " time.",
+  "startInSeconds": 18.32,
+  "endInSeconds": 18.32
+ },
+ {
+  "text": " Number",
+  "startInSeconds": 18.62,
+  "endInSeconds": 18.98
+ },
+ {
+  "text": " four,",
+  "startInSeconds": 18.98,
+  "endInSeconds": 19.24
+ },
+ {
+  "text": " music.",
+  "startInSeconds": 19.52,
+  "endInSeconds": 19.76
+ },
+ {
+  "text": " I",
+  "startInSeconds": 19.9,
+  "endInSeconds": 20.1
+ },
+ {
+  "text": " paste",
+  "startInSeconds": 20.1,
+  "endInSeconds": 20.26
+ },
+ {
+  "text": " a",
+  "startInSeconds": 20.26,
+  "endInSeconds": 20.42
+ },
+ {
+  "text": " link,",
+  "startInSeconds": 20.42,
+  "endInSeconds": 20.58
+ },
+ {
+  "text": " it",
+  "startInSeconds": 20.66,
+  "endInSeconds": 20.94
+ },
+ {
+  "text": " downloads",
+  "startInSeconds": 20.94,
+  "endInSeconds": 21.14
+ },
+ {
+  "text": " with",
+  "startInSeconds": 21.14,
+  "endInSeconds": 21.3
+ },
+ {
+  "text": " YTDLP,",
+  "startInSeconds": 21.3,
+  "endInSeconds": 22.1
+ },
+ {
+  "text": " files",
+  "startInSeconds": 22.34,
+  "endInSeconds": 22.48
+ },
+ {
+  "text": " a",
+  "startInSeconds": 22.48,
+  "endInSeconds": 22.64
+ },
+ {
+  "text": " song",
+  "startInSeconds": 22.64,
+  "endInSeconds": 22.84
+ },
+ {
+  "text": " by",
+  "startInSeconds": 22.84,
+  "endInSeconds": 23.1
+ },
+ {
+  "text": " feeling",
+  "startInSeconds": 23.1,
+  "endInSeconds": 23.26
+ },
+ {
+  "text": " and",
+  "startInSeconds": 23.26,
+  "endInSeconds": 23.46
+ },
+ {
+  "text": " vibe,",
+  "startInSeconds": 23.46,
+  "endInSeconds": 23.52
+ },
+ {
+  "text": " and",
+  "startInSeconds": 23.78,
+  "endInSeconds": 23.88
+ },
+ {
+  "text": " is",
+  "startInSeconds": 23.88,
+  "endInSeconds": 24
+ },
+ {
+  "text": " able",
+  "startInSeconds": 24,
+  "endInSeconds": 24.16
+ },
+ {
+  "text": " to",
+  "startInSeconds": 24.16,
+  "endInSeconds": 24.46
+ },
+ {
+  "text": " suggest",
+  "startInSeconds": 24.46,
+  "endInSeconds": 24.82
+ },
+ {
+  "text": " music",
+  "startInSeconds": 24.82,
+  "endInSeconds": 24.96
+ },
+ {
+  "text": " based",
+  "startInSeconds": 25,
+  "endInSeconds": 25
+ },
+ {
+  "text": " on",
+  "startInSeconds": 25,
+  "endInSeconds": 25
+ },
+ {
+  "text": " the",
+  "startInSeconds": 25,
+  "endInSeconds": 25
+ },
+ {
+  "text": " music.",
+  "startInSeconds": 25,
+  "endInSeconds": 25
+ }
+]

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="680" viewBox="0 0 940 680">
+  <!-- Stand-in cut-out for the text-behind sample: a cup on a saucer, transparent around it. -->
+  <defs>
+    <linearGradient id="cup" x1="0" x2="1">
+      <stop offset="0" stop-color="#d9d3c7"/>
+      <stop offset="0.45" stop-color="#fbf8f2"/>
+      <stop offset="1" stop-color="#cfc8ba"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="470" cy="640" rx="250" ry="34" fill="#00000030"/>
+  <ellipse cx="470" cy="618" rx="235" ry="40" fill="url(#cup)" stroke="#bdb5a5" stroke-width="3"/>
+  <path d="M655 340 c90 0 90 140 -10 150" fill="none" stroke="#e9e3d8" stroke-width="34" stroke-linecap="round"/>
+  <path d="M290 270 L650 270 L620 560 Q610 610 470 612 Q330 610 320 560 Z" fill="url(#cup)" stroke="#bdb5a5" stroke-width="3"/>
+  <ellipse cx="470" cy="270" rx="180" ry="30" fill="#4a2c1a" stroke="#efe9de" stroke-width="12"/>
+  <rect x="300" y="390" width="340" height="44" fill="#1f3bff"/>
+</svg>

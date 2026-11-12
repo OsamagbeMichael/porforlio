@@ -1,0 +1,51 @@
+{
+  "name": "my-video",
+  "version": "1.0.0",
+  "description": "My Remotion video",
+  "repository": {},
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "private": true,
+  "dependencies": {
+    "@huggingface/transformers": "4.2.0",
+    "@mediabunny/server": "1.62.0",
+    "@remotion/captions": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/media": "4.0.539",
+    "@remotion/whisper-webgpu": "4.0.539",
+    "@remotion/zod-types": "4.0.539",
+    "mediabunny": "1.62.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.539",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.539",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "10.12.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc",
+    "transcribe": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/transcribe.ts",
+    "cut": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/cut.ts",
+    "study": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/study.ts",
+    "music": "yt-dlp -x --audio-format mp3 -o \"public/music/%(title)s.%(ext)s\"",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/edit.test.ts",
+    "jumps": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/jumps.ts",
+    "master": "sh scripts/master.sh",
+    "cutout": "swift scripts/cutout.swift",
+    "matte": "swift scripts/matte.swift"
+  },
+  "allowScripts": {
+    "esbuild": false
+  }
+}

@@ -7,6 +7,11 @@ grouped by Added / Changed / Fixed. This is the "what shipped," not the
 
 ## [Unreleased]
 ### Added
+- `my-video/`: Remotion reel editor (local Whisper transcription, automatic rough cut, captions, labels, b-roll, music, sfx).
+- 29 animated graphic styles for reels (`my-video/src/anim/`), previewed in Studio under "Styles".
+- Reel b-roll looks (`vintage`, `crt`), photo push-in, serif captions, `zoomEvery`, text behind the speaker (`behind` + `npm run matte`).
+- Reel scripts: `jumps` (uncovered jump cuts, bare stretches), `master` (-14 LUFS), `cutout` and `matte` (Apple Vision, offline).
+- Docs: reel workflow with review gates, hooks/formats/editor rules, `docs/design-principles.md`, `docs/website-ideas.md`.
 ### Changed
 ### Fixed
 

@@ -10,6 +10,7 @@ generative wallpaper, and a real booking calendar — themed around
 - **services/api** — Express + TypeScript + Prisma, talks to Postgres
 - **services/art-service** — Python (FastAPI). Generates the desktop wallpaper as SVG on the fly (seeded per visitor) and computes writing stats from your field notes by calling the API. This is where Python earns its place — generative art + light data analysis — rather than being bolted on.
 - **Postgres** — via Docker Compose
+- **my-video** — Remotion reel editor: turns a talking-head take into a captioned, cut, scored vertical reel from JSON. Claude runs it; see `my-video/CLAUDE.md`.
 
 ## Project layout
 
@@ -18,7 +19,9 @@ portfolio/
   apps/web/            # frontend, http://localhost:5173 — see apps/web/README.md
   services/api/         # Express API, http://localhost:4000 — see services/api/README.md
   services/art-service/ # FastAPI, http://localhost:8000 — see services/art-service/README.md
+  my-video/            # Remotion reel editor (not part of the web app) — see my-video/CLAUDE.md
   docs/decisions/        # short write-ups of significant architecture choices
+  docs/design-principles.md, docs/website-ideas.md  # shared design rules, site backlog
   CHANGELOG.md            # dated, terse — what shipped
   DEVLOG.md                # dated, freeform — why, what I learned, what's next
   docker-compose.yml     # Postgres only
