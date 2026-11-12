@@ -8,6 +8,8 @@ Not written yet. Build it from 3–4 of **your own** edited videos (not another 
 
 ## Identity
 Name / handle to show on screen:
+Sign-off slogan (the same last line every reel, see `docs/hooks.md`):
+Core values (3–4 ideas every reel comes back to, see `docs/formats.md`):
 
 ## Pacing
 How long shots last, how often there's a cut or punch-in, how fast the first 3 seconds move.

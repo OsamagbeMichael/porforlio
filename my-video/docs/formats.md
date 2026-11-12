@@ -16,6 +16,9 @@ Pick one before filming; it decides the shots. "Here" is what this editor alread
 | Clone | Two of you arguing ("me vs my brain") | film twice, same framing; ask Claude to stack the takes |
 | Yap | Walking or casual, one strong opinion | the default `Reel`, `captionStyle: "serif"` |
 
+## Core values: don't chase a new subject every day
+Pick **3–4 core ideas** your page stands for and keep coming back to them, each time with a different format, hook or visual. New topics every day make a page lose direction; the same few ideas told many ways build a brand people recognise. Write yours in `docs/signature-style.md`.
+
 ## 350 ideas from one niche
 One main niche → 5 sub-niches → 10 formats (above) → 7 angles = 350 combinations.
 The 7 angles: tutorial, comparison, myth or common mistake, do vs don't, quick tip, transformation (before → after), challenge.

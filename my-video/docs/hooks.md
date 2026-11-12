@@ -22,6 +22,12 @@ Fill the blank with the most specific thing you can say: a number, a tool, a pla
 Mix long sentences with short ones of **five words or fewer**. All-long sounds like a lecture; long, short, long, short sounds like a person.
 > "I had to find a library that stays open all night, and the first one I tried had a problem. **It was closed.**"
 
+## Writing rules (the script is 90% of the video)
+1. **Open with a comparison.** Two options side by side ("smart editor vs lazy editor", "this vs that") pulls attention fastest.
+2. **Example before explanation.** Tell a tiny story first ("two people walk into a market; one brings a bag…"), then explain. The more it matches the audience's real problem, the better it lands.
+3. **Join sentences with "but" or "therefore", never "and then".** "I went freelance, **but** I couldn't pay rent, **therefore** I joined a community…" keeps tension going.
+4. **A sign-off slogan.** The same short phrase at the end of every reel. Regular viewers wait for it, which lifts watch time. Pick yours once, put it in `docs/signature-style.md`, and keep it.
+
 ## Loop ending
 End on a line that runs straight back into the first line, so the reel replays without a seam and the rewatch counts.
 Film the "loop part" first, then build the hook from it. Example: last line "…and that's why I never", first line "edit at night."

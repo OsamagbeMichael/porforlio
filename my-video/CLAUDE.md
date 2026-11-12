@@ -9,7 +9,7 @@ Data flows one way: `raw.mp4` -> `words.raw.json` -> `cut.json` -> render. Chang
 | `words.raw.json` | `npm run transcribe -- <slug>` | raw take |
 | `drops.json` | Claude: `[[start, end], ...]` ranges to throw away | raw take |
 | `cut.json` | `npm run cut -- <slug>`: kept segments and retimed words | segments: raw take, words: edit |
-| `reel.json` | Claude: labels, b-roll, anim, music, sfx, captionStyle | edit |
+| `reel.json` | Claude: labels, b-roll (`look`, `focus`), anim, music, sfx, captionStyle, zoomEvery | edit |
 
 ## Workflow for a new reel
 
@@ -51,7 +51,9 @@ The user stays in control: stop and wait for an OK at every **[check]**. Small s
    | files, apps, "my computer" | `desktop-core` | `title`, `files`, `src`, `time` |
    | a personal week / diary feel | `scrapbook` | `title`, `notes`, `src` |
    | several numbers at once | `bento` | `cells` (`{value?, label}`, big one first), `accent` |
-   | a calm aside with a diagram | `explainer` | `text`, `src`, `tag`, `paper` |
+   | a calm aside with a diagram | `explainer` | `text`, `src`, `tag`, `paper`, `color` |
+   | quoting a book, paper or article | `quote-doc` | `text`, `highlight` (sentence in `text`), `source`, `heading` |
+   | "here's how I edited this" | `edit-timeline` | `title`, `notes` (1–3 short lines) |
 
    Don't overlap an `anim` with `broll` or a label: they share the same spot on screen. To add a style from a reference, follow `docs/inspiration.md`.
    For `text-behind`, cut the subject out on this Mac first: `npm run cutout -- <photo> public/b-roll/<category>/<name>.png`.
@@ -84,4 +86,5 @@ npm run cutout -- <photo> <out.png>   # subject cut-out for text-behind (Apple V
 ```
 Look at stills at the labels and b-roll times before calling a reel done. `npm test` checks the cut and caption logic.
 For AI-generated b-roll (walkthroughs, product shots), follow `docs/ai-broll.md`.
+Editing for a client instead of the user's own page: read `docs/career.md` (audience, b-roll space, captions by age).
 To learn a creator's editing style: `npm run study -- <youtube-url>`, then distil `research/*.md` into `docs/editor-rules.md`.
