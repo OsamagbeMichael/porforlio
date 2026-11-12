@@ -1,6 +1,6 @@
 // node scripts/edit.test.ts
 import assert from "node:assert/strict";
-import { bigCuts, cut, pageWords } from "../src/edit.ts";
+import { bareStretches, bigCuts, cut, pageWords } from "../src/edit.ts";
 
 const w = (text: string, startInSeconds: number, endInSeconds: number) => ({ text, startInSeconds, endInSeconds });
 
@@ -38,5 +38,9 @@ assert.deepEqual(pageWords(five, 7).map((c) => c.text), ["one two three four fiv
 // Only the cut that skipped 3 s of raw take is a big jump; it lands where segment 2 ends in the edit.
 const s3 = [{ start: 0, end: 1 }, { start: 1.2, end: 2 }, { start: 5, end: 6 }];
 assert.deepEqual(bigCuts(s3).map((t) => +t.toFixed(3)), [1.8]);
+
+// 0-6 s is bare (> 5 s), 8-10 is covered, 10-12 is short enough, overlapping covers merge.
+assert.deepEqual(bareStretches(12, [{ start: 8, end: 10 }, { start: 6, end: 9 }]), [[0, 6]]);
+assert.deepEqual(bareStretches(20, [{ start: 1, end: 3 }]), [[3, 20]]);
 
 console.log("edit.test.ts: ok");

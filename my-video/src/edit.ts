@@ -79,6 +79,19 @@ export const bigCuts = (segments: Segment[]) => {
   return out;
 };
 
+// Stretches of the edit longer than `max` seconds with no b-roll or anim on screen, as [start, end].
+export const BARE_MAX = 5; // something should cut away every 3-5 s
+export const bareStretches = (total: number, covers: { start: number; end: number }[], max = BARE_MAX) => {
+  const out: [number, number][] = [];
+  let t = 0;
+  for (const c of [...covers].sort((a, b) => a.start - b.start)) {
+    if (c.start - t > max) out.push([t, c.start]);
+    t = Math.max(t, c.end);
+  }
+  if (total - t > max) out.push([t, total]);
+  return out;
+};
+
 export const pageWords = (words: Word[], maxWords = MAX_WORDS): Cue[] => {
   const groups: Word[][] = [];
   for (const w of words) {
