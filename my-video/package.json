@@ -42,7 +42,8 @@
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/edit.test.ts",
     "jumps": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/jumps.ts",
     "master": "sh scripts/master.sh",
-    "cutout": "swift scripts/cutout.swift"
+    "cutout": "swift scripts/cutout.swift",
+    "matte": "swift scripts/matte.swift"
   },
   "allowScripts": {
     "esbuild": false

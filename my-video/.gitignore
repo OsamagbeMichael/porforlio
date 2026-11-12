@@ -12,3 +12,5 @@ public/**/*.mov
 public/**/*.mp3
 public/**/*.m4a
 public/**/*.wav
+# Speaker mattes from npm run matte (regenerate, never commit).
+public/reels/*/matte.*
