@@ -1,5 +1,6 @@
 import { Bento, BentoProps } from "./Bento";
 import { DesktopCore, DesktopCoreProps } from "./DesktopCore";
+import { EditTimeline, EditTimelineProps } from "./EditTimeline";
 import { Explainer, ExplainerProps } from "./Explainer";
 import { FootageText, FootageTextProps } from "./FootageText";
 import { Scrapbook, ScrapbookProps } from "./Scrapbook";
@@ -56,7 +57,8 @@ export type AnimSpec =
   | ScrapbookProps
   | BentoProps
   | ExplainerProps
-  | QuoteDocProps;
+  | QuoteDocProps
+  | EditTimelineProps;
 
 export const Anim: React.FC<AnimSpec> = (p) => {
   switch (p.style) {
@@ -116,6 +118,8 @@ export const Anim: React.FC<AnimSpec> = (p) => {
       return <Explainer {...p} />;
     case "quote-doc":
       return <QuoteDoc {...p} />;
+    case "edit-timeline":
+      return <EditTimeline {...p} />;
   }
 };
 
@@ -189,4 +193,5 @@ export const ANIM_SAMPLES: AnimSpec[] = [
     text: "Viewers were shown the same clip with and without captions. Retention rose when captions were short and in sync with speech. Long blocks of text on screen had the opposite effect, and most viewers left within three seconds.",
     highlight: "Retention rose when captions were short and in sync with speech.",
   },
+  { style: "edit-timeline", title: "day-81.mp4", notes: ["cut every pause", "b-roll over the jump", "music at 8%"] },
 ];
